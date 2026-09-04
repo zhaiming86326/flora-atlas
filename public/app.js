@@ -1,3 +1,4 @@
+import {createSectionNavigation} from './navigation.js';
 import {DemoPlantRepository,paginate} from './domain.js';
 const $=s=>document.querySelector(s);
 const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
@@ -17,11 +18,12 @@ function icons(root=document){root.querySelectorAll('[data-icon]').forEach(el=>e
 icons();
 let repo, state={q:'',group:'',family:'',genus:'',use:'',sort:'default',page:1,view:'grid'}, expanded=new Set(['angiosperms']);
 let currentPlant=null, detailTab='overview',lastHash='#catalog', toastTimer;
+const navigation=createSectionNavigation(hash=>{lastHash=hash});
 const USES=['观赏','食用','芳香','绿化'];
 const useIcon={'观赏':'flower','食用':'cup','芳香':'wind','绿化':'leaf'};
 function readURL(){const p=new URL(location.href).searchParams;for(const k of ['q','group','family','genus','use'])state[k]=p.get(k)||'';state.sort=['zh','latin'].includes(p.get('sort'))?p.get('sort'):'default';state.view=p.get('view')==='list'?'list':'grid';state.page=Math.max(1,parseInt(p.get('page')||'1',10)||1);$('#search').value=state.q;$('#sort').value=state.sort;}
 function writeURL(){const url=new URL(location.href);for(const [k,v]of Object.entries(state)){if(v&&v!=='default'&&!(k==='view'&&v==='grid')&&!(k==='page'&&v===1))url.searchParams.set(k,v);else url.searchParams.delete(k)}history.replaceState(null,'',url);}
-function update(patch,scroll=false){Object.assign(state,{page:1},patch);render();writeURL();if(scroll)$('#catalog').scrollIntoView({behavior:'smooth'});}
+function update(patch,scroll=false){Object.assign(state,{page:1},patch);render();writeURL();if(scroll)navigation.go('explore');}
 function groupName(id){return repo.data.groups.find(g=>g.id===id)?.name||id}
 function familyName(id){return repo.data.plants.find(p=>p.family.name===id)?.family.zh||id}
 function genusName(id){return repo.data.plants.find(p=>p.genus.name===id)?.genus.zh||id}
@@ -64,7 +66,7 @@ function openPlant(slug){const p=repo.get(slug);if(!p){showDialog(`${toolbar('�
 function credits(){showDialog(`${toolbar('图片来源与许可')}<div class="tab-content"><h2 class="credits-title" id="dialog-title">每一张照片，都保留署名。</h2><p class="architecture-intro">下列图片按来源页面指定的开放许可使用。本网站进行了等比例压缩，并以裁切方式展示。</p><div class="credits-list">${repo.data.plants.map(p=>{const m=repo.media[p.mediaId];return `<article class="credit-item"><img src="${esc(m.path)}" alt="${esc(p.commonNames[0].name)}"><div><h3>${esc(p.commonNames[0].name)}</h3><p>${esc(m.creator)}</p><a href="${esc(m.licenseUrl)}" target="_blank" rel="noopener noreferrer">${esc(m.license)}</a> · <a href="${esc(m.sourceUrl)}" target="_blank" rel="noopener noreferrer">来源页面 ↗</a></div></article>`}).join('')}</div></div>`)}
 function architecture(){showDialog(`${toolbar('数据结构')}<div class="tab-content"><h2 class="credits-title" id="dialog-title">从 12 株植物，到完整植物名录。</h2><p class="architecture-intro">当前使用静态示例文件，搜索直接在浏览器运行。数据访问已独立成模块；全量导入后可替换为服务端分页查询。</p><div class="schema-list"><article><h3>植物分类记录</h3><code>taxon_id · scientific_name · rank<br>parent_taxon_id · accepted_taxon_id</code><p>分类、父级与接受名关联独立保存。</p></article><article><h3>名称与异名</h3><code>vernacular_names · language<br>synonyms · source_record_id</code><p>中文名、多语言别名和异名可共同检索。</p></article><article><h3>来源与导入版本</h3><code>dataset · version · external_id<br>license · retrieved_at · checksum</code><p>WFO / WCVP 的标识按来源命名空间保存。</p></article><article><h3>用途与媒体资料</h3><code>use_assertions · reference_url<br>media · creator · license · source_url</code><p>用途单独举证，图片许可单独追踪。</p></article></div><p class="architecture-intro">全量接入路径：原始文件留档 → 流式规范化与校验 → 保留版本的暂存记录 → 人工确认名称映射 → 数据库索引与分页 API。分类名录本身不能替代用途资料。</p><div class="detail-actions"><a class="outline-button" href="architecture.md" download="flora-architecture.md">${icon('download')}下载结构说明</a><a class="outline-button" href="schema.sql" download="flora-schema.sql">${icon('download')}下载数据库结构</a></div><p class="source-notice">来源入口：<a href="https://list.worldfloraonline.org/" target="_blank" rel="noopener noreferrer"><u>WFO Plant List</u></a> · <a href="https://sftp.kew.org/pub/data-repositories/WCVP/" target="_blank" rel="noopener noreferrer"><u>WCVP 全量目录</u></a>。本版本尚未连接或导入这些数据源。</p></div>`)}
 function safeDecode(value){try{return decodeURIComponent(value)}catch{return value}}
-function route(){const hash=location.hash;if(hash.startsWith('#plant/'))openPlant(safeDecode(hash.slice(7)));else if(hash==='#credits')credits();else if(hash==='#architecture')architecture();else{if($('#detail-dialog').open)$('#detail-dialog').close();lastHash=hash||'#catalog';}}
+function route(){const hash=location.hash;if(hash.startsWith('#plant/'))openPlant(safeDecode(hash.slice(7)));else if(hash==='#credits')credits();else if(hash==='#architecture')architecture();else{if($('#detail-dialog').open)$('#detail-dialog').close();lastHash=hash||'#catalog';navigation.syncFromHash();}}
 function closeDialog(){if($('#detail-dialog').open)$('#detail-dialog').close();location.hash=lastHash;currentPlant=null}
 async function copy(text){try{await navigator.clipboard.writeText(text);toast('已复制到剪贴板')}catch{toast('浏览器未允许复制，请从地址栏或详情中手动复制')}}
 document.addEventListener('click',e=>{
@@ -83,7 +85,6 @@ document.addEventListener('click',e=>{
  switch(b.dataset.action){
  case 'reset':reset();break;
  case 'filters':$('#filters').classList.toggle('open');b.setAttribute('aria-expanded',$('#filters').classList.contains('open'));break;
- case 'taxonomy':$('#filters').classList.add('open');$('#catalog').scrollIntoView({behavior:'smooth'});$('#genus-filter').focus({preventScroll:true});break;
  case 'credits':location.hash='credits';break;
  case 'architecture':location.hash='architecture';break;
  case 'close':closeDialog();break;
@@ -104,5 +105,4 @@ try{
  repo=await new DemoPlantRepository().load();
  const m=repo.media['adiantum-capillus-veneris'];$('#hero-photo').src=m.path;$('#hero-credit').textContent=`© ${m.creator} · ${m.license}`;
  readURL();if(state.group)expanded.add(state.group);render();writeURL();route();
- const observer=new IntersectionObserver(entries=>{for(const en of entries)if(en.isIntersecting){document.querySelectorAll('[data-nav]').forEach(a=>a.classList.toggle('active',a.dataset.nav===(en.target.id==='sources'?'sources':'explore')))}},{rootMargin:'-10% 0px -55% 0px'});observer.observe($('#catalog'));observer.observe($('#sources'));
 }catch(e){$('#results').innerHTML=`<div class="empty-state">${icon('info')}<h3>数据暂时无法载入</h3><p>${esc(e.message)}</p><button onclick="location.reload()">重新载入</button></div>`;$('#result-count').textContent='载入失败，请重试。';console.error(e)}

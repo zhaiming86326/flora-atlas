@@ -14,6 +14,8 @@ Open http://localhost:4173. This is a static site: no package installation or cl
 
 Chinese/scientific/alias/synonym search with Unicode normalization; group/family/genus/use intersections; sorting; pagination; grid/list views; URL state; directly addressable plant details; source/license tabs; attribution directory; JSON download; mobile filtering; accessible native dialog with Escape and keyboard tabs.
 
+Desktop reading styles are in `public/desktop.css`; section navigation and its active underline are managed by `public/navigation.js`. Desktop type is enlarged from 1101px upward, including a 1920 × 1080 layout.
+
 ## Data and sources
 
 `public/data.json` holds structured specimen-like reference records, never invented WFO or WCVP identifiers. `public/media.json` holds individual image creators, original URLs, licenses and modification notices. Independently authored Chinese summaries are CC0; reference-site prose is not copied or relicensed. Images remain under their own CC BY / CC0 licenses.

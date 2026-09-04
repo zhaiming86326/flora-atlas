@@ -1,0 +1,155 @@
+/* Comfortable reading at normal browser zoom on desktop displays. */
+@media (min-width: 1101px) {
+  body { font-size: 16px; --muted: #6d7867; }
+  .wrap, .header-inner { max-width: 1480px; }
+  .site-header { height: 104px; }
+  .brand { font-size: 30px; }
+  .brand small { font-size: 10px; }
+  .brand-mark { width: 48px; height: 48px; }
+  .site-header nav { gap: 44px; }
+  .site-header nav a, .site-header nav button { font-size: 16px; color: #687561; }
+  .site-header nav .active { color: var(--forest); }
+  .site-header nav .active::after { height: 3px; }
+  .private-badge { font-size: 13px; }
+  .private-badge .icon { width: 16px; height: 16px; }
+
+  .hero { min-height: 550px; }
+  .hero-copy { padding: 44px 40px 36px; }
+  .hero .eyebrow { font-size: 11px; }
+  .hero h1 { font-size: 56px; margin: 22px 0 18px; }
+  .hero-description { font-size: 16px; color: #687561; }
+  .hero-art { min-height: 550px; }
+  #search-form { height: 60px; gap: 12px; }
+  #search-form input { font-size: 16px; }
+  #search-form .icon { width: 20px; height: 20px; }
+  #search-form button { height: 48px; font-size: 15px; padding: 0 18px; }
+  .search-hints, .search-hints button { font-size: 13px; color: #6b795e; }
+  .hero-stats { gap: 44px; margin-top: 28px; }
+  .hero-stats strong { font-size: 30px; }
+  .hero-stats strong small, .hero-stats span { font-size: 13px; color: #69765d; }
+  .hero-label, .tiny { font-size: 11px; }
+  .hero-photo-caption h2 { font-size: 30px; }
+  .hero-photo-caption em { font-size: 16px; }
+  .hero-photo-credit { font-size: 11px; }
+
+  .catalog { margin-top: 60px; margin-bottom: 56px; }
+  .section-top { margin-bottom: 30px; }
+  .section-top .eyebrow { font-size: 11px; }
+  .section-top h2 { font-size: 32px; }
+  .section-top p.muted { font-size: 15px; }
+  .view-switch button { padding: 9px; }
+  .view-switch button .icon { width: 20px; height: 20px; }
+  .collection-layout { grid-template-columns: 244px minmax(0, 1fr); gap: 32px; }
+  aside { padding-right: 22px; }
+  .aside-title h3 { font-size: 15px; }
+  .aside-title h3 .icon { width: 18px; height: 18px; }
+  .text-button { font-size: 13px; color: #69775f; }
+  .tree-all, .group-button { font-size: 16px; padding: 12px 10px; }
+  .tree-all .icon, .group-button .icon { width: 18px; height: 18px; }
+  .count { font-size: 12px; }
+  .family-button { font-size: 15px; padding: 9px 6px; color: #68765e; }
+  .family-button small { font-size: 12px; line-height: 1.5; color: #748169; }
+  .select-group label { font-size: 14px; }
+  select { font-size: 15px; min-height: 44px; }
+  .aside-note { padding: 18px 16px; }
+  .aside-note strong { font-size: 14px; }
+  .aside-note p, .aside-note a { font-size: 13px; }
+  .use-filters { gap: 8px; padding-bottom: 20px; }
+  .use-filters button { font-size: 15px; min-height: 44px; padding: 10px 17px; }
+  .use-filters button .icon { width: 17px; height: 17px; }
+  .use-filters .pill-count { font-size: 12px; }
+  .result-meta { margin: 18px 0; }
+  .result-meta p { font-size: 14px; color: #707e62; }
+  .sort-control label { font-size: 13px; }
+  .active-chip { font-size: 13px; padding: 7px 10px; }
+  .plant-grid { gap: 26px 22px; }
+  .card-photo { height: 225px; }
+  .habit-badge { font-size: 12px; padding: 6px 9px; }
+  .card-number { font-size: 12px; }
+  .card-body { padding: 20px 18px 0; }
+  .card-heading h3 { font-size: 24px; }
+  .card-heading .icon { width: 19px; height: 19px; }
+  .latin-name { font-size: 16px; line-height: 1.5; min-height: 24px; color: #748368; }
+  .card-taxonomy { font-size: 14px; color: #758268; gap: 8px; }
+  .tagline { font-size: 14px; line-height: 1.8; min-height: 51px; color: #758268; }
+  .card-bottom { padding: 14px 0; align-items: flex-start; }
+  .tag { font-size: 12px; padding: 4px 7px; }
+  .card-source { font-size: 11px; white-space: nowrap; padding-top: 4px; color: #758268; }
+  .card-source .icon { width: 13px; height: 13px; }
+  .list-view .plant-card { grid-template-columns: 190px minmax(0, 1fr); }
+  .list-view .card-body { padding: 20px 24px 0; }
+  .list-view .card-taxonomy { position: static; }
+  .list-view .tagline { min-height: 0; }
+  .pagination { gap: 9px; margin-top: 32px; }
+  .pagination button { min-width: 42px; height: 42px; font-size: 15px; }
+  .pagination button .icon { width: 17px; height: 17px; }
+  .pagination .page-summary, .collection-footnote { font-size: 13px; color: #78866a; }
+  .empty-state h3 { font-size: 26px; }
+  .empty-state p, .empty-state button { font-size: 16px; }
+
+  .sources-section { padding: 48px 0; }
+  .sources-intro .eyebrow { font-size: 11px; }
+  .sources-intro h2 { font-size: 32px; }
+  .sources-intro p:not(.eyebrow) { font-size: 16px; color: #6d7d60; }
+  .outline-button { font-size: 15px; padding: 14px 20px; }
+  .outline-button .icon { width: 18px; height: 18px; }
+  .source-cards { gap: 36px; }
+  .source-number { font-size: 11px; }
+  .source-cards h3 { font-size: 18px; }
+  .source-cards p { font-size: 16px; line-height: 1.9; max-width: none; min-height: 61px; color: #708263; }
+  .source-cards a, .source-cards button { font-size: 14px; }
+  footer { font-size: 13px; color: #79876c; padding: 30px 0; }
+  .footer-brand { font-size: 19px; }
+
+  dialog { width: min(1100px, calc(100% - 80px)); }
+  .dialog-toolbar { min-height: 73px; padding: 19px 28px; }
+  .dialog-toolbar .breadcrumbs { font-size: 14px; }
+  .close-dialog .icon { width: 20px; height: 20px; }
+  .detail-top { padding: 32px; gap: 34px; }
+  .detail-image { height: 380px; }
+  .image-credit { font-size: 12px; }
+  .detail-intro .eyebrow { font-size: 12px; }
+  .detail-intro h2 { font-size: 40px; }
+  .detail-scientific { font-size: 23px; }
+  .detail-scientific small { font-size: 15px; }
+  .detail-intro .description { font-size: 16px; color: #6b7c60; }
+  .detail-alias { font-size: 14px; color: #748366; }
+  .detail-actions button { font-size: 14px; padding: 11px 14px; }
+  .detail-actions .icon { width: 16px; height: 16px; }
+  .detail-tabs { top: 73px; padding: 0 32px; gap: 36px; }
+  .detail-tabs button { font-size: 15px; padding: 16px 0; }
+  .tab-content { padding: 28px 32px 34px; }
+  .detail-info-grid h3 { font-size: 14px; }
+  .detail-info-grid p { font-size: 16px; color: #708263; }
+  .detail-tree { font-size: 14px; }
+  .notice { font-size: 14px; }
+  .source-table { font-size: 15px; }
+  .source-table th { min-width: 108px; }
+  .source-table td { color: #708263; }
+  .source-table small, .source-notice { font-size: 13px; color: #78866a; }
+  .credits-title { font-size: 30px; }
+  .credit-item h3 { font-size: 16px; }
+  .credit-item p, .credit-item a { font-size: 13px; }
+  .architecture-intro { font-size: 16px; }
+  .schema-list h3 { font-size: 17px; }
+  .schema-list code, .schema-list p { font-size: 14px; }
+  #toast { font-size: 15px; }
+}
+
+@media (min-width: 1600px) {
+  .hero-copy { padding: 48px 48px 40px; }
+  .hero h1 { font-size: 62px; }
+  .hero, .hero-art { min-height: 574px; }
+  .card-photo { height: 240px; }
+  .card-body { padding: 22px 20px 0; }
+}
+
+@media (min-width: 1101px) and (max-width: 1350px) {
+  .hero-copy { padding: 36px 30px; }
+  .hero h1 { font-size: 48px; }
+  #search-form button { gap: 6px; padding: 0 13px; }
+  #search-form button .icon { display: none; }
+  .hero-stats { gap: 28px; }
+  .collection-layout { grid-template-columns: 220px minmax(0, 1fr); gap: 26px; }
+  .plant-grid:not(.list-view) { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
