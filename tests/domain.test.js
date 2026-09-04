@@ -1,0 +1,15 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import fs from 'node:fs';
+import {searchPlants,paginate} from '../public/domain.js';
+const plants=JSON.parse(fs.readFileSync(new URL('../public/data.json',import.meta.url))).plants;
+const base={q:'',group:'',family:'',genus:'',use:'',sort:'default'};
+const query=p=>searchPlants(plants,{...base,...p}).map(p=>p.slug);
+test('Chinese name and alias resolve the same record',()=>{assert.deepEqual(query({q:'银杏'}),['ginkgo-biloba']);assert.deepEqual(query({q:'公孙树'}),['ginkgo-biloba'])});
+test('Scientific names tolerate case, fullwidth, and extra spaces',()=>assert.deepEqual(query({q:'  ＧＩＮＫＧＯ    BILOBA  '}),['ginkgo-biloba']));
+test('An old synonym resolves to the current display record',()=>assert.deepEqual(query({q:'rosmarinus officinalis'}),['salvia-rosmarinus']));
+test('Query, group, family, genus and use intersect',()=>{assert.deepEqual(query({q:'Salvia',group:'angiosperms',family:'Lamiaceae',genus:'Salvia',use:'食用'}),['salvia-rosmarinus']);assert.deepEqual(query({group:'gymnosperms',use:'食用'}),[])});
+test('All selected family members are returned, genus narrows them',()=>{assert.equal(query({family:'Lamiaceae'}).length,4);assert.deepEqual(query({family:'Lamiaceae',genus:'Mentha'}),['mentha-spicata'])});
+test('Malformed query cannot execute and returns no matches',()=>assert.deepEqual(query({q:'<img src=x onerror=alert(1)>'}),[]));
+test('Pagination handles out-of-range pages and empty collections',()=>{assert.equal(paginate(plants,999).page,2);assert.equal(paginate(plants,-4).page,1);assert.deepEqual(paginate([],9),{items:[],page:1,pages:1,total:0})});
+test('Latin sorting is ordered without altering seed order',()=>{const found=searchPlants(plants,{...base,sort:'latin'});assert.equal(found[0].slug,'adiantum-capillus-veneris');assert.equal(found.at(-1).slug,'salvia-rosmarinus');assert.equal(plants[0].slug,'ginkgo-biloba')});

@@ -1,0 +1,1446 @@
+{
+  "schemaVersion": "1.0.0",
+  "dataset": {
+    "id": "flora-demo",
+    "version": "demo-1.0",
+    "createdAt": "2026-09-04",
+    "recordCount": 12,
+    "scope": "curated-demo",
+    "note": "12 条人工整理示例，尚未导入 WFO / WCVP；名称状态为示例参考，不声称已由其验收。"
+  },
+  "groups": [
+    {
+      "id": "angiosperms",
+      "name": "被子植物",
+      "latin": "Angiosperms"
+    },
+    {
+      "id": "gymnosperms",
+      "name": "裸子植物",
+      "latin": "Gymnosperms"
+    },
+    {
+      "id": "ferns",
+      "name": "蕨类植物",
+      "latin": "Ferns"
+    }
+  ],
+  "sources": [
+    {
+      "id": "wikidata",
+      "title": "Wikidata",
+      "url": "https://www.wikidata.org/",
+      "licenseId": "CC0-1.0",
+      "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "scope": "结构化名称与标识符"
+    },
+    {
+      "id": "editorial",
+      "title": "草木集 · 示例编写",
+      "url": "#sources",
+      "licenseId": "CC0-1.0",
+      "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "scope": "独立撰写的中文摘要和手工整理的事实字段；参考网页权利仍归原作者"
+    }
+  ],
+  "plants": [
+    {
+      "id": "flora:ginkgo-biloba",
+      "slug": "ginkgo-biloba",
+      "displayOrder": 1,
+      "scientificName": "Ginkgo biloba",
+      "authorship": "L.",
+      "rank": "species",
+      "taxonomicStatus": "demo-reference",
+      "acceptedTaxonId": null,
+      "parentTaxonId": "flora:genus:Ginkgo",
+      "commonNames": [
+        {
+          "name": "银杏",
+          "language": "zh-Hans",
+          "preferred": true,
+          "sourceId": "wikidata",
+          "sourceRecordId": "Q43284"
+        },
+        {
+          "name": "白果",
+          "language": "zh",
+          "preferred": false,
+          "sourceId": "editorial"
+        },
+        {
+          "name": "公孙树",
+          "language": "zh",
+          "preferred": false,
+          "sourceId": "editorial"
+        },
+        {
+          "name": "銀杏",
+          "language": "zh",
+          "preferred": false,
+          "sourceId": "editorial"
+        }
+      ],
+      "synonyms": [],
+      "group": "gymnosperms",
+      "family": {
+        "name": "Ginkgoaceae",
+        "zh": "银杏科"
+      },
+      "genus": {
+        "name": "Ginkgo",
+        "zh": "银杏属"
+      },
+      "habit": "乔木",
+      "useCategories": [
+        "观赏",
+        "绿化"
+      ],
+      "tagline": "扇叶摇曳，把秋天染成金黄。",
+      "description": "落叶乔木，叶片呈扇形，秋季转为金黄色。常见于公园与行道绿化。",
+      "origin": "中国",
+      "features": "扇形叶片，常有两浅裂；叶脉呈多次二叉分枝。",
+      "uses": [
+        {
+          "category": "观赏",
+          "summary": "观赏叶形与秋色，也用于城市道路和公园绿化。",
+          "sourceId": "editorial",
+          "referenceUrl": "https://plants.ces.ncsu.edu/plants/ginkgo-biloba/",
+          "licenseId": "CC0-1.0",
+          "reviewStatus": "demo-curated"
+        },
+        {
+          "category": "绿化",
+          "summary": "观赏叶形与秋色，也用于城市道路和公园绿化。",
+          "sourceId": "editorial",
+          "referenceUrl": "https://plants.ces.ncsu.edu/plants/ginkgo-biloba/",
+          "licenseId": "CC0-1.0",
+          "reviewStatus": "demo-curated"
+        }
+      ],
+      "useSummary": "观赏叶形与秋色，也用于城市道路和公园绿化。",
+      "notice": "种子及外种皮具有毒性风险；本页不提供食用或用药建议。",
+      "mediaId": "ginkgo-biloba",
+      "sourceRecords": [
+        {
+          "sourceId": "wikidata",
+          "recordId": "Q43284",
+          "sourceUrl": "https://www.wikidata.org/wiki/Q43284",
+          "datasetVersion": "retrieved-2026-09-04",
+          "retrievedAt": "2026-09-04",
+          "licenseId": "CC0-1.0",
+          "fields": [
+            "scientificName",
+            "authorship",
+            "preferredCommonName",
+            "genus"
+          ]
+        },
+        {
+          "sourceId": "editorial",
+          "recordId": "demo-ginkgo-biloba",
+          "sourceUrl": "https://plants.ces.ncsu.edu/plants/ginkgo-biloba/",
+          "datasetVersion": "demo-1.0",
+          "retrievedAt": "2026-09-04",
+          "licenseId": "CC0-1.0",
+          "fields": [
+            "family",
+            "group",
+            "habit",
+            "description",
+            "origin",
+            "features",
+            "uses",
+            "aliases"
+          ],
+          "note": "基于参考网页中的事实独立整理；不复制原站文字，也不将原站内容重新授权为 CC0。"
+        }
+      ],
+      "externalIds": {
+        "wikidata": "Q43284",
+        "wfo": null,
+        "wcvp": null,
+        "ipni": null
+      }
+    },
+    {
+      "id": "flora:nelumbo-nucifera",
+      "slug": "nelumbo-nucifera",
+      "displayOrder": 2,
+      "scientificName": "Nelumbo nucifera",
+      "authorship": "Gaertn.",
+      "rank": "species",
+      "taxonomicStatus": "demo-reference",
+      "acceptedTaxonId": null,
+      "parentTaxonId": "flora:genus:Nelumbo",
+      "commonNames": [
+        {
+          "name": "荷花",
+          "language": "zh-Hans",
+          "preferred": true,
+          "sourceId": "wikidata",
+          "sourceRecordId": "Q16528"
+        },
+        {
+          "name": "莲",
+          "language": "zh",
+          "preferred": false,
+          "sourceId": "editorial"
+        },
+        {
+          "name": "莲花",
+          "language": "zh",
+          "preferred": false,
+          "sourceId": "editorial"
+        },
+        {
+          "name": "荷",
+          "language": "zh",
+          "preferred": false,
+          "sourceId": "editorial"
+        },
+        {
+          "name": "藕",
+          "language": "zh",
+          "preferred": false,
+          "sourceId": "editorial"
+        }
+      ],
+      "synonyms": [],
+      "group": "angiosperms",
+      "family": {
+        "name": "Nelumbonaceae",
+        "zh": "莲科"
+      },
+      "genus": {
+        "name": "Nelumbo",
+        "zh": "莲属"
+      },
+      "habit": "水生草本",
+      "useCategories": [
+        "观赏",
+        "食用"
+      ],
+      "tagline": "一池清凉，一朵盛夏。",
+      "description": "多年生水生植物，圆形叶片挺出水面，花朵大而醒目，地下根状茎膨大成藕。",
+      "origin": "亚洲",
+      "features": "圆形盾状叶，花梗长；花后形成具孔洞的莲蓬。",
+      "uses": [
+        {
+          "category": "观赏",
+          "summary": "用于池塘景观；藕与莲子是常见的食材。",
+          "sourceId": "editorial",
+          "referenceUrl": "https://plants.ces.ncsu.edu/plants/nelumbo-nucifera/",
+          "licenseId": "CC0-1.0",
+          "reviewStatus": "demo-curated"
+        },
+        {
+          "category": "食用",
+          "summary": "用于池塘景观；藕与莲子是常见的食材。",
+          "sourceId": "editorial",
+          "referenceUrl": "https://plants.ces.ncsu.edu/plants/nelumbo-nucifera/",
+          "licenseId": "CC0-1.0",
+          "reviewStatus": "demo-curated"
+        }
+      ],
+      "useSummary": "用于池塘景观；藕与莲子是常见的食材。",
+      "notice": "",
+      "mediaId": "nelumbo-nucifera",
+      "sourceRecords": [
+        {
+          "sourceId": "wikidata",
+          "recordId": "Q16528",
+          "sourceUrl": "https://www.wikidata.org/wiki/Q16528",
+          "datasetVersion": "retrieved-2026-09-04",
+          "retrievedAt": "2026-09-04",
+          "licenseId": "CC0-1.0",
+          "fields": [
+            "scientificName",
+            "authorship",
+            "preferredCommonName",
+            "genus"
+          ]
+        },
+        {
+          "sourceId": "editorial",
+          "recordId": "demo-nelumbo-nucifera",
+          "sourceUrl": "https://plants.ces.ncsu.edu/plants/nelumbo-nucifera/",
+          "datasetVersion": "demo-1.0",
+          "retrievedAt": "2026-09-04",
+          "licenseId": "CC0-1.0",
+          "fields": [
+            "family",
+            "group",
+            "habit",
+            "description",
+            "origin",
+            "features",
+            "uses",
+            "aliases"
+          ],
+          "note": "基于参考网页中的事实独立整理；不复制原站文字，也不将原站内容重新授权为 CC0。"
+        }
+      ],
+      "externalIds": {
+        "wikidata": "Q16528",
+        "wfo": null,
+        "wcvp": null,
+        "ipni": null
+      }
+    },
+    {
+      "id": "flora:salvia-rosmarinus",
+      "slug": "salvia-rosmarinus",
+      "displayOrder": 3,
+      "scientificName": "Salvia rosmarinus",
+      "authorship": "Spenn.",
+      "rank": "species",
+      "taxonomicStatus": "demo-reference",
+      "acceptedTaxonId": null,
+      "parentTaxonId": "flora:genus:Salvia",
+      "commonNames": [
+        {
+          "name": "迷迭香",
+          "language": "zh-Hans",
+          "preferred": true,
+          "sourceId": "wikidata",
+          "sourceRecordId": "Q102240169"
+        },
+        {
+          "name": "Rosemary",
+          "language": "en",
+          "preferred": false,
+          "sourceId": "editorial"
+        }
+      ],
+      "synonyms": [
+        {
+          "name": "Rosmarinus officinalis",
+          "authorship": "L.",
+          "sourceUrl": "https://www.wikidata.org/wiki/Q122679"
+        }
+      ],
+      "group": "angiosperms",
+      "family": {
+        "name": "Lamiaceae",
+        "zh": "唇形科"
+      },
+      "genus": {
+        "name": "Salvia",
+        "zh": "鼠尾草属"
+      },
+      "habit": "灌木",
+      "useCategories": [
+        "芳香",
+        "食用",
+        "观赏"
+      ],
+      "tagline": "海风一样清冽的草木香气。",
+      "description": "常绿芳香灌木，叶片细长，常见蓝紫色小花。园艺中兼有香草和观赏用途。",
+      "origin": "地中海地区及邻近区域",
+      "features": "细长叶对生，叶背偏白；花小，呈唇形。",
+      "uses": [
+        {
+          "category": "芳香",
+          "summary": "叶片用作烹饪香草，也可用于香囊和花园观赏。",
+          "sourceId": "editorial",
+          "referenceUrl": "https://plants.ces.ncsu.edu/plants/salvia-rosmarinus/",
+          "licenseId": "CC0-1.0",
+          "reviewStatus": "demo-curated"
+        },
+        {
+          "category": "食用",
+          "summary": "叶片用作烹饪香草，也可用于香囊和花园观赏。",
+          "sourceId": "editorial",
+          "referenceUrl": "https://plants.ces.ncsu.edu/plants/salvia-rosmarinus/",
+          "licenseId": "CC0-1.0",
+          "reviewStatus": "demo-curated"
+        },
+        {
+          "category": "观赏",
+          "summary": "叶片用作烹饪香草，也可用于香囊和花园观赏。",
+          "sourceId": "editorial",
+          "referenceUrl": "https://plants.ces.ncsu.edu/plants/salvia-rosmarinus/",
+          "licenseId": "CC0-1.0",
+          "reviewStatus": "demo-curated"
+        }
+      ],
+      "useSummary": "叶片用作烹饪香草，也可用于香囊和花园观赏。",
+      "notice": "",
+      "mediaId": "salvia-rosmarinus",
+      "sourceRecords": [
+        {
+          "sourceId": "wikidata",
+          "recordId": "Q102240169",
+          "sourceUrl": "https://www.wikidata.org/wiki/Q102240169",
+          "datasetVersion": "retrieved-2026-09-04",
+          "retrievedAt": "2026-09-04",
+          "licenseId": "CC0-1.0",
+          "fields": [
+            "scientificName",
+            "authorship",
+            "preferredCommonName",
+            "genus"
+          ]
+        },
+        {
+          "sourceId": "editorial",
+          "recordId": "demo-salvia-rosmarinus",
+          "sourceUrl": "https://plants.ces.ncsu.edu/plants/salvia-rosmarinus/",
+          "datasetVersion": "demo-1.0",
+          "retrievedAt": "2026-09-04",
+          "licenseId": "CC0-1.0",
+          "fields": [
+            "family",
+            "group",
+            "habit",
+            "description",
+            "origin",
+            "features",
+            "uses",
+            "aliases"
+          ],
+          "note": "基于参考网页中的事实独立整理；不复制原站文字，也不将原站内容重新授权为 CC0。"
+        }
+      ],
+      "externalIds": {
+        "wikidata": "Q102240169",
+        "wfo": null,
+        "wcvp": null,
+        "ipni": null
+      }
+    },
+    {
+      "id": "flora:camellia-sinensis",
+      "slug": "camellia-sinensis",
+      "displayOrder": 4,
+      "scientificName": "Camellia sinensis",
+      "authorship": "(L.) Kuntze",
+      "rank": "species",
+      "taxonomicStatus": "demo-reference",
+      "acceptedTaxonId": null,
+      "parentTaxonId": "flora:genus:Camellia",
+      "commonNames": [
+        {
+          "name": "茶树",
+          "language": "zh-Hans",
+          "preferred": true,
+          "sourceId": "wikidata",
+          "sourceRecordId": "Q101815"
+        },
+        {
+          "name": "茶",
+          "language": "zh",
+          "preferred": false,
+          "sourceId": "editorial"
+        },
+        {
+          "name": "茗",
+          "language": "zh",
+          "preferred": false,
+          "sourceId": "editorial"
+        }
+      ],
+      "synonyms": [],
+      "group": "angiosperms",
+      "family": {
+        "name": "Theaceae",
+        "zh": "山茶科"
+      },
+      "genus": {
+        "name": "Camellia",
+        "zh": "山茶属"
+      },
+      "habit": "灌木",
+      "useCategories": [
+        "食用",
+        "观赏"
+      ],
+      "tagline": "一芽一叶，连接日常与山野。",
+      "description": "常绿灌木或小乔木，嫩叶和芽经不同工艺加工成茶。花色白，叶片有光泽。",
+      "origin": "中国中南部与东南部",
+      "features": "叶片革质，边缘有锯齿；花白色，雄蕊多数。",
+      "uses": [
+        {
+          "category": "食用",
+          "summary": "嫩叶和芽用于制茶；植株也用于庭院和绿篱观赏。",
+          "sourceId": "editorial",
+          "referenceUrl": "https://plants.ces.ncsu.edu/plants/camellia-sinensis/",
+          "licenseId": "CC0-1.0",
+          "reviewStatus": "demo-curated"
+        },
+        {
+          "category": "观赏",
+          "summary": "嫩叶和芽用于制茶；植株也用于庭院和绿篱观赏。",
+          "sourceId": "editorial",
+          "referenceUrl": "https://plants.ces.ncsu.edu/plants/camellia-sinensis/",
+          "licenseId": "CC0-1.0",
+          "reviewStatus": "demo-curated"
+        }
+      ],
+      "useSummary": "嫩叶和芽用于制茶；植株也用于庭院和绿篱观赏。",
+      "notice": "",
+      "mediaId": "camellia-sinensis",
+      "sourceRecords": [
+        {
+          "sourceId": "wikidata",
+          "recordId": "Q101815",
+          "sourceUrl": "https://www.wikidata.org/wiki/Q101815",
+          "datasetVersion": "retrieved-2026-09-04",
+          "retrievedAt": "2026-09-04",
+          "licenseId": "CC0-1.0",
+          "fields": [
+            "scientificName",
+            "authorship",
+            "preferredCommonName",
+            "genus"
+          ]
+        },
+        {
+          "sourceId": "editorial",
+          "recordId": "demo-camellia-sinensis",
+          "sourceUrl": "https://plants.ces.ncsu.edu/plants/camellia-sinensis/",
+          "datasetVersion": "demo-1.0",
+          "retrievedAt": "2026-09-04",
+          "licenseId": "CC0-1.0",
+          "fields": [
+            "family",
+            "group",
+            "habit",
+            "description",
+            "origin",
+            "features",
+            "uses",
+            "aliases"
+          ],
+          "note": "基于参考网页中的事实独立整理；不复制原站文字，也不将原站内容重新授权为 CC0。"
+        }
+      ],
+      "externalIds": {
+        "wikidata": "Q101815",
+        "wfo": null,
+        "wcvp": null,
+        "ipni": null
+      }
+    },
+    {
+      "id": "flora:osmanthus-fragrans",
+      "slug": "osmanthus-fragrans",
+      "displayOrder": 5,
+      "scientificName": "Osmanthus fragrans",
+      "authorship": "Lour.",
+      "rank": "species",
+      "taxonomicStatus": "demo-reference",
+      "acceptedTaxonId": null,
+      "parentTaxonId": "flora:genus:Osmanthus",
+      "commonNames": [
+        {
+          "name": "桂花",
+          "language": "zh-Hans",
+          "preferred": true,
+          "sourceId": "wikidata",
+          "sourceRecordId": "Q1209922"
+        },
+        {
+          "name": "木犀",
+          "language": "zh",
+          "preferred": false,
+          "sourceId": "editorial"
+        },
+        {
+          "name": "桂",
+          "language": "zh",
+          "preferred": false,
+          "sourceId": "editorial"
+        }
+      ],
+      "synonyms": [],
+      "group": "angiosperms",
+      "family": {
+        "name": "Oleaceae",
+        "zh": "木犀科"
+      },
+      "genus": {
+        "name": "Osmanthus",
+        "zh": "木犀属"
+      },
+      "habit": "灌木",
+      "useCategories": [
+        "芳香",
+        "观赏",
+        "食用"
+      ],
+      "tagline": "花朵很小，香气走得很远。",
+      "description": "常绿灌木，花簇生于叶腋，花香浓郁。园艺品种的花色和花期各有不同。",
+      "origin": "东亚",
+      "features": "叶对生，叶质较厚；细小花朵成簇开放。",
+      "uses": [
+        {
+          "category": "芳香",
+          "summary": "用于庭院观赏、绿篱与芳香景观；花也用于茶饮增香。",
+          "sourceId": "editorial",
+          "referenceUrl": "https://plants.ces.ncsu.edu/plants/osmanthus-fragrans/",
+          "licenseId": "CC0-1.0",
+          "reviewStatus": "demo-curated"
+        },
+        {
+          "category": "观赏",
+          "summary": "用于庭院观赏、绿篱与芳香景观；花也用于茶饮增香。",
+          "sourceId": "editorial",
+          "referenceUrl": "https://plants.ces.ncsu.edu/plants/osmanthus-fragrans/",
+          "licenseId": "CC0-1.0",
+          "reviewStatus": "demo-curated"
+        },
+        {
+          "category": "食用",
+          "summary": "用于庭院观赏、绿篱与芳香景观；花也用于茶饮增香。",
+          "sourceId": "editorial",
+          "referenceUrl": "https://plants.ces.ncsu.edu/plants/osmanthus-fragrans/",
+          "licenseId": "CC0-1.0",
+          "reviewStatus": "demo-curated"
+        }
+      ],
+      "useSummary": "用于庭院观赏、绿篱与芳香景观；花也用于茶饮增香。",
+      "notice": "",
+      "mediaId": "osmanthus-fragrans",
+      "sourceRecords": [
+        {
+          "sourceId": "wikidata",
+          "recordId": "Q1209922",
+          "sourceUrl": "https://www.wikidata.org/wiki/Q1209922",
+          "datasetVersion": "retrieved-2026-09-04",
+          "retrievedAt": "2026-09-04",
+          "licenseId": "CC0-1.0",
+          "fields": [
+            "scientificName",
+            "authorship",
+            "preferredCommonName",
+            "genus"
+          ]
+        },
+        {
+          "sourceId": "editorial",
+          "recordId": "demo-osmanthus-fragrans",
+          "sourceUrl": "https://plants.ces.ncsu.edu/plants/osmanthus-fragrans/",
+          "datasetVersion": "demo-1.0",
+          "retrievedAt": "2026-09-04",
+          "licenseId": "CC0-1.0",
+          "fields": [
+            "family",
+            "group",
+            "habit",
+            "description",
+            "origin",
+            "features",
+            "uses",
+            "aliases"
+          ],
+          "note": "基于参考网页中的事实独立整理；不复制原站文字，也不将原站内容重新授权为 CC0。"
+        }
+      ],
+      "externalIds": {
+        "wikidata": "Q1209922",
+        "wfo": null,
+        "wcvp": null,
+        "ipni": null
+      }
+    },
+    {
+      "id": "flora:monstera-deliciosa",
+      "slug": "monstera-deliciosa",
+      "displayOrder": 6,
+      "scientificName": "Monstera deliciosa",
+      "authorship": "Liebm.",
+      "rank": "species",
+      "taxonomicStatus": "demo-reference",
+      "acceptedTaxonId": null,
+      "parentTaxonId": "flora:genus:Monstera",
+      "commonNames": [
+        {
+          "name": "龟背竹",
+          "language": "zh-Hans",
+          "preferred": true,
+          "sourceId": "wikidata",
+          "sourceRecordId": "Q161077"
+        },
+        {
+          "name": "蓬莱蕉",
+          "language": "zh",
+          "preferred": false,
+          "sourceId": "editorial"
+        },
+        {
+          "name": "龜背竹",
+          "language": "zh",
+          "preferred": false,
+          "sourceId": "editorial"
+        }
+      ],
+      "synonyms": [],
+      "group": "angiosperms",
+      "family": {
+        "name": "Araceae",
+        "zh": "天南星科"
+      },
+      "genus": {
+        "name": "Monstera",
+        "zh": "龟背竹属"
+      },
+      "habit": "藤本",
+      "useCategories": [
+        "观赏"
+      ],
+      "tagline": "把热带森林的一角带进生活。",
+      "description": "常绿攀援植物，成熟叶片可形成深裂和孔洞，是常见的室内观叶植物。",
+      "origin": "墨西哥至巴拿马",
+      "features": "成熟叶片宽大，有不规则孔洞与边缘裂片。",
+      "uses": [
+        {
+          "category": "观赏",
+          "summary": "主要作为室内盆栽与温暖地区的观叶植物。",
+          "sourceId": "editorial",
+          "referenceUrl": "https://plants.ces.ncsu.edu/plants/monstera-deliciosa/",
+          "licenseId": "CC0-1.0",
+          "reviewStatus": "demo-curated"
+        }
+      ],
+      "useSummary": "主要作为室内盆栽与温暖地区的观叶植物。",
+      "notice": "植株含刺激性草酸钙晶体，避免儿童和宠物啃咬。",
+      "mediaId": "monstera-deliciosa",
+      "sourceRecords": [
+        {
+          "sourceId": "wikidata",
+          "recordId": "Q161077",
+          "sourceUrl": "https://www.wikidata.org/wiki/Q161077",
+          "datasetVersion": "retrieved-2026-09-04",
+          "retrievedAt": "2026-09-04",
+          "licenseId": "CC0-1.0",
+          "fields": [
+            "scientificName",
+            "authorship",
+            "preferredCommonName",
+            "genus"
+          ]
+        },
+        {
+          "sourceId": "editorial",
+          "recordId": "demo-monstera-deliciosa",
+          "sourceUrl": "https://plants.ces.ncsu.edu/plants/monstera-deliciosa/",
+          "datasetVersion": "demo-1.0",
+          "retrievedAt": "2026-09-04",
+          "licenseId": "CC0-1.0",
+          "fields": [
+            "family",
+            "group",
+            "habit",
+            "description",
+            "origin",
+            "features",
+            "uses",
+            "aliases"
+          ],
+          "note": "基于参考网页中的事实独立整理；不复制原站文字，也不将原站内容重新授权为 CC0。"
+        }
+      ],
+      "externalIds": {
+        "wikidata": "Q161077",
+        "wfo": null,
+        "wcvp": null,
+        "ipni": null
+      }
+    },
+    {
+      "id": "flora:mentha-spicata",
+      "slug": "mentha-spicata",
+      "displayOrder": 7,
+      "scientificName": "Mentha spicata",
+      "authorship": "L.",
+      "rank": "species",
+      "taxonomicStatus": "demo-reference",
+      "acceptedTaxonId": null,
+      "parentTaxonId": "flora:genus:Mentha",
+      "commonNames": [
+        {
+          "name": "留兰香",
+          "language": "zh-Hans",
+          "preferred": true,
+          "sourceId": "wikidata",
+          "sourceRecordId": "Q160114"
+        },
+        {
+          "name": "绿薄荷",
+          "language": "zh",
+          "preferred": false,
+          "sourceId": "editorial"
+        },
+        {
+          "name": "香薄荷",
+          "language": "zh",
+          "preferred": false,
+          "sourceId": "editorial"
+        },
+        {
+          "name": "留蘭香",
+          "language": "zh",
+          "preferred": false,
+          "sourceId": "editorial"
+        },
+        {
+          "name": "Spearmint",
+          "language": "en",
+          "preferred": false,
+          "sourceId": "editorial"
+        }
+      ],
+      "synonyms": [],
+      "group": "angiosperms",
+      "family": {
+        "name": "Lamiaceae",
+        "zh": "唇形科"
+      },
+      "genus": {
+        "name": "Mentha",
+        "zh": "薄荷属"
+      },
+      "habit": "草本",
+      "useCategories": [
+        "芳香",
+        "食用"
+      ],
+      "tagline": "指尖一揉，便是清新的夏天。",
+      "description": "多年生芳香草本，叶片鲜绿，夏季可见穗状花序。植株能通过根状茎扩展。",
+      "origin": "欧洲至中国",
+      "features": "茎常呈四棱，叶对生；花序细长，呈穗状。",
+      "uses": [
+        {
+          "category": "芳香",
+          "summary": "叶片用于茶饮、饮料和菜肴调味，也可作为芳香材料。",
+          "sourceId": "editorial",
+          "referenceUrl": "https://plants.ces.ncsu.edu/plants/mentha-spicata/",
+          "licenseId": "CC0-1.0",
+          "reviewStatus": "demo-curated"
+        },
+        {
+          "category": "食用",
+          "summary": "叶片用于茶饮、饮料和菜肴调味，也可作为芳香材料。",
+          "sourceId": "editorial",
+          "referenceUrl": "https://plants.ces.ncsu.edu/plants/mentha-spicata/",
+          "licenseId": "CC0-1.0",
+          "reviewStatus": "demo-curated"
+        }
+      ],
+      "useSummary": "叶片用于茶饮、饮料和菜肴调味，也可作为芳香材料。",
+      "notice": "",
+      "mediaId": "mentha-spicata",
+      "sourceRecords": [
+        {
+          "sourceId": "wikidata",
+          "recordId": "Q160114",
+          "sourceUrl": "https://www.wikidata.org/wiki/Q160114",
+          "datasetVersion": "retrieved-2026-09-04",
+          "retrievedAt": "2026-09-04",
+          "licenseId": "CC0-1.0",
+          "fields": [
+            "scientificName",
+            "authorship",
+            "preferredCommonName",
+            "genus"
+          ]
+        },
+        {
+          "sourceId": "editorial",
+          "recordId": "demo-mentha-spicata",
+          "sourceUrl": "https://plants.ces.ncsu.edu/plants/mentha-spicata/",
+          "datasetVersion": "demo-1.0",
+          "retrievedAt": "2026-09-04",
+          "licenseId": "CC0-1.0",
+          "fields": [
+            "family",
+            "group",
+            "habit",
+            "description",
+            "origin",
+            "features",
+            "uses",
+            "aliases"
+          ],
+          "note": "基于参考网页中的事实独立整理；不复制原站文字，也不将原站内容重新授权为 CC0。"
+        }
+      ],
+      "externalIds": {
+        "wikidata": "Q160114",
+        "wfo": null,
+        "wcvp": null,
+        "ipni": null
+      }
+    },
+    {
+      "id": "flora:lavandula-angustifolia",
+      "slug": "lavandula-angustifolia",
+      "displayOrder": 8,
+      "scientificName": "Lavandula angustifolia",
+      "authorship": "Mill.",
+      "rank": "species",
+      "taxonomicStatus": "demo-reference",
+      "acceptedTaxonId": null,
+      "parentTaxonId": "flora:genus:Lavandula",
+      "commonNames": [
+        {
+          "name": "薰衣草",
+          "language": "zh-Hans",
+          "preferred": true,
+          "sourceId": "wikidata",
+          "sourceRecordId": "Q42081"
+        },
+        {
+          "name": "狭叶薰衣草",
+          "language": "zh",
+          "preferred": false,
+          "sourceId": "editorial"
+        },
+        {
+          "name": "English lavender",
+          "language": "en",
+          "preferred": false,
+          "sourceId": "editorial"
+        }
+      ],
+      "synonyms": [],
+      "group": "angiosperms",
+      "family": {
+        "name": "Lamiaceae",
+        "zh": "唇形科"
+      },
+      "genus": {
+        "name": "Lavandula",
+        "zh": "薰衣草属"
+      },
+      "habit": "亚灌木",
+      "useCategories": [
+        "芳香",
+        "观赏"
+      ],
+      "tagline": "紫色花穗，收藏阳光的气息。",
+      "description": "具芳香的多年生亚灌木，叶狭长，花穗常呈紫色，适合芳香花园与干花材料。",
+      "origin": "地中海地区",
+      "features": "狭长灰绿色叶片，细长花梗顶端聚生小花。",
+      "uses": [
+        {
+          "category": "芳香",
+          "summary": "用于花境、干花和芳香材料。",
+          "sourceId": "editorial",
+          "referenceUrl": "https://plants.ces.ncsu.edu/plants/lavandula-angustifolia/",
+          "licenseId": "CC0-1.0",
+          "reviewStatus": "demo-curated"
+        },
+        {
+          "category": "观赏",
+          "summary": "用于花境、干花和芳香材料。",
+          "sourceId": "editorial",
+          "referenceUrl": "https://plants.ces.ncsu.edu/plants/lavandula-angustifolia/",
+          "licenseId": "CC0-1.0",
+          "reviewStatus": "demo-curated"
+        }
+      ],
+      "useSummary": "用于花境、干花和芳香材料。",
+      "notice": "",
+      "mediaId": "lavandula-angustifolia",
+      "sourceRecords": [
+        {
+          "sourceId": "wikidata",
+          "recordId": "Q42081",
+          "sourceUrl": "https://www.wikidata.org/wiki/Q42081",
+          "datasetVersion": "retrieved-2026-09-04",
+          "retrievedAt": "2026-09-04",
+          "licenseId": "CC0-1.0",
+          "fields": [
+            "scientificName",
+            "authorship",
+            "preferredCommonName",
+            "genus"
+          ]
+        },
+        {
+          "sourceId": "editorial",
+          "recordId": "demo-lavandula-angustifolia",
+          "sourceUrl": "https://plants.ces.ncsu.edu/plants/lavandula-angustifolia/",
+          "datasetVersion": "demo-1.0",
+          "retrievedAt": "2026-09-04",
+          "licenseId": "CC0-1.0",
+          "fields": [
+            "family",
+            "group",
+            "habit",
+            "description",
+            "origin",
+            "features",
+            "uses",
+            "aliases"
+          ],
+          "note": "基于参考网页中的事实独立整理；不复制原站文字，也不将原站内容重新授权为 CC0。"
+        }
+      ],
+      "externalIds": {
+        "wikidata": "Q42081",
+        "wfo": null,
+        "wcvp": null,
+        "ipni": null
+      }
+    },
+    {
+      "id": "flora:helianthus-annuus",
+      "slug": "helianthus-annuus",
+      "displayOrder": 9,
+      "scientificName": "Helianthus annuus",
+      "authorship": "L.",
+      "rank": "species",
+      "taxonomicStatus": "demo-reference",
+      "acceptedTaxonId": null,
+      "parentTaxonId": "flora:genus:Helianthus",
+      "commonNames": [
+        {
+          "name": "向日葵",
+          "language": "zh-Hans",
+          "preferred": true,
+          "sourceId": "wikidata",
+          "sourceRecordId": "Q171497"
+        },
+        {
+          "name": "葵花",
+          "language": "zh",
+          "preferred": false,
+          "sourceId": "editorial"
+        },
+        {
+          "name": "朝阳花",
+          "language": "zh",
+          "preferred": false,
+          "sourceId": "editorial"
+        },
+        {
+          "name": "Sunflower",
+          "language": "en",
+          "preferred": false,
+          "sourceId": "editorial"
+        }
+      ],
+      "synonyms": [],
+      "group": "angiosperms",
+      "family": {
+        "name": "Asteraceae",
+        "zh": "菊科"
+      },
+      "genus": {
+        "name": "Helianthus",
+        "zh": "向日葵属"
+      },
+      "habit": "草本",
+      "useCategories": [
+        "观赏",
+        "食用"
+      ],
+      "tagline": "明亮的花盘，装满夏日阳光。",
+      "description": "一年生草本，头状花序大，边缘常为黄色舌状花。种子可供食用或榨油。",
+      "origin": "北美洲",
+      "features": "茎直立，叶宽大；花盘由许多小花组成。",
+      "uses": [
+        {
+          "category": "观赏",
+          "summary": "用于观赏、切花；种子可食用，也用于植物油生产。",
+          "sourceId": "editorial",
+          "referenceUrl": "https://plants.ces.ncsu.edu/plants/helianthus-annuus/",
+          "licenseId": "CC0-1.0",
+          "reviewStatus": "demo-curated"
+        },
+        {
+          "category": "食用",
+          "summary": "用于观赏、切花；种子可食用，也用于植物油生产。",
+          "sourceId": "editorial",
+          "referenceUrl": "https://plants.ces.ncsu.edu/plants/helianthus-annuus/",
+          "licenseId": "CC0-1.0",
+          "reviewStatus": "demo-curated"
+        }
+      ],
+      "useSummary": "用于观赏、切花；种子可食用，也用于植物油生产。",
+      "notice": "",
+      "mediaId": "helianthus-annuus",
+      "sourceRecords": [
+        {
+          "sourceId": "wikidata",
+          "recordId": "Q171497",
+          "sourceUrl": "https://www.wikidata.org/wiki/Q171497",
+          "datasetVersion": "retrieved-2026-09-04",
+          "retrievedAt": "2026-09-04",
+          "licenseId": "CC0-1.0",
+          "fields": [
+            "scientificName",
+            "authorship",
+            "preferredCommonName",
+            "genus"
+          ]
+        },
+        {
+          "sourceId": "editorial",
+          "recordId": "demo-helianthus-annuus",
+          "sourceUrl": "https://plants.ces.ncsu.edu/plants/helianthus-annuus/",
+          "datasetVersion": "demo-1.0",
+          "retrievedAt": "2026-09-04",
+          "licenseId": "CC0-1.0",
+          "fields": [
+            "family",
+            "group",
+            "habit",
+            "description",
+            "origin",
+            "features",
+            "uses",
+            "aliases"
+          ],
+          "note": "基于参考网页中的事实独立整理；不复制原站文字，也不将原站内容重新授权为 CC0。"
+        }
+      ],
+      "externalIds": {
+        "wikidata": "Q171497",
+        "wfo": null,
+        "wcvp": null,
+        "ipni": null
+      }
+    },
+    {
+      "id": "flora:ocimum-basilicum",
+      "slug": "ocimum-basilicum",
+      "displayOrder": 10,
+      "scientificName": "Ocimum basilicum",
+      "authorship": "L.",
+      "rank": "species",
+      "taxonomicStatus": "demo-reference",
+      "acceptedTaxonId": null,
+      "parentTaxonId": "flora:genus:Ocimum",
+      "commonNames": [
+        {
+          "name": "罗勒",
+          "language": "zh-Hans",
+          "preferred": true,
+          "sourceId": "wikidata",
+          "sourceRecordId": "Q38859"
+        },
+        {
+          "name": "九层塔",
+          "language": "zh",
+          "preferred": false,
+          "sourceId": "editorial"
+        },
+        {
+          "name": "罗艻",
+          "language": "zh",
+          "preferred": false,
+          "sourceId": "editorial"
+        },
+        {
+          "name": "Basil",
+          "language": "en",
+          "preferred": false,
+          "sourceId": "editorial"
+        }
+      ],
+      "synonyms": [],
+      "group": "angiosperms",
+      "family": {
+        "name": "Lamiaceae",
+        "zh": "唇形科"
+      },
+      "genus": {
+        "name": "Ocimum",
+        "zh": "罗勒属"
+      },
+      "habit": "草本",
+      "useCategories": [
+        "食用",
+        "芳香"
+      ],
+      "tagline": "从香草花园，走向餐桌。",
+      "description": "芳香草本，叶片对生，栽培品种丰富。不同品种的叶色、叶形和香味会有差异。",
+      "origin": "热带亚洲与非洲",
+      "features": "茎多为四棱，叶对生；小花排列在枝条上部。",
+      "uses": [
+        {
+          "category": "食用",
+          "summary": "鲜叶或干叶用于料理调味，也可种植于香草花园。",
+          "sourceId": "editorial",
+          "referenceUrl": "https://plants.ces.ncsu.edu/plants/ocimum-basilicum/",
+          "licenseId": "CC0-1.0",
+          "reviewStatus": "demo-curated"
+        },
+        {
+          "category": "芳香",
+          "summary": "鲜叶或干叶用于料理调味，也可种植于香草花园。",
+          "sourceId": "editorial",
+          "referenceUrl": "https://plants.ces.ncsu.edu/plants/ocimum-basilicum/",
+          "licenseId": "CC0-1.0",
+          "reviewStatus": "demo-curated"
+        }
+      ],
+      "useSummary": "鲜叶或干叶用于料理调味，也可种植于香草花园。",
+      "notice": "",
+      "mediaId": "ocimum-basilicum",
+      "sourceRecords": [
+        {
+          "sourceId": "wikidata",
+          "recordId": "Q38859",
+          "sourceUrl": "https://www.wikidata.org/wiki/Q38859",
+          "datasetVersion": "retrieved-2026-09-04",
+          "retrievedAt": "2026-09-04",
+          "licenseId": "CC0-1.0",
+          "fields": [
+            "scientificName",
+            "authorship",
+            "preferredCommonName",
+            "genus"
+          ]
+        },
+        {
+          "sourceId": "editorial",
+          "recordId": "demo-ocimum-basilicum",
+          "sourceUrl": "https://plants.ces.ncsu.edu/plants/ocimum-basilicum/",
+          "datasetVersion": "demo-1.0",
+          "retrievedAt": "2026-09-04",
+          "licenseId": "CC0-1.0",
+          "fields": [
+            "family",
+            "group",
+            "habit",
+            "description",
+            "origin",
+            "features",
+            "uses",
+            "aliases"
+          ],
+          "note": "基于参考网页中的事实独立整理；不复制原站文字，也不将原站内容重新授权为 CC0。"
+        }
+      ],
+      "externalIds": {
+        "wikidata": "Q38859",
+        "wfo": null,
+        "wcvp": null,
+        "ipni": null
+      }
+    },
+    {
+      "id": "flora:adiantum-capillus-veneris",
+      "slug": "adiantum-capillus-veneris",
+      "displayOrder": 11,
+      "scientificName": "Adiantum capillus-veneris",
+      "authorship": "L.",
+      "rank": "species",
+      "taxonomicStatus": "demo-reference",
+      "acceptedTaxonId": null,
+      "parentTaxonId": "flora:genus:Adiantum",
+      "commonNames": [
+        {
+          "name": "铁线蕨",
+          "language": "zh-Hans",
+          "preferred": true,
+          "sourceId": "wikidata",
+          "sourceRecordId": "Q4678994"
+        },
+        {
+          "name": "铁丝草",
+          "language": "zh",
+          "preferred": false,
+          "sourceId": "editorial"
+        },
+        {
+          "name": "鐵線蕨",
+          "language": "zh",
+          "preferred": false,
+          "sourceId": "editorial"
+        },
+        {
+          "name": "Maidenhair fern",
+          "language": "en",
+          "preferred": false,
+          "sourceId": "editorial"
+        }
+      ],
+      "synonyms": [],
+      "group": "ferns",
+      "family": {
+        "name": "Pteridaceae",
+        "zh": "凤尾蕨科"
+      },
+      "genus": {
+        "name": "Adiantum",
+        "zh": "铁线蕨属"
+      },
+      "habit": "蕨类",
+      "useCategories": [
+        "观赏"
+      ],
+      "tagline": "细如铁线，轻如一片羽毛。",
+      "description": "多年生蕨类植物，叶柄细而深色，小羽片轻盈。常用于阴湿环境下的观叶栽培。",
+      "origin": "广布于温暖地区",
+      "features": "深色细叶柄，扇形小羽片；孢子囊群位于叶缘附近。",
+      "uses": [
+        {
+          "category": "观赏",
+          "summary": "作为盆栽观叶植物，也用于阴湿庭园的景观配置。",
+          "sourceId": "editorial",
+          "referenceUrl": "https://plants.ces.ncsu.edu/plants/adiantum-capillus-veneris/",
+          "licenseId": "CC0-1.0",
+          "reviewStatus": "demo-curated"
+        }
+      ],
+      "useSummary": "作为盆栽观叶植物，也用于阴湿庭园的景观配置。",
+      "notice": "",
+      "mediaId": "adiantum-capillus-veneris",
+      "sourceRecords": [
+        {
+          "sourceId": "wikidata",
+          "recordId": "Q4678994",
+          "sourceUrl": "https://www.wikidata.org/wiki/Q4678994",
+          "datasetVersion": "retrieved-2026-09-04",
+          "retrievedAt": "2026-09-04",
+          "licenseId": "CC0-1.0",
+          "fields": [
+            "scientificName",
+            "authorship",
+            "preferredCommonName",
+            "genus"
+          ]
+        },
+        {
+          "sourceId": "editorial",
+          "recordId": "demo-adiantum-capillus-veneris",
+          "sourceUrl": "https://plants.ces.ncsu.edu/plants/adiantum-capillus-veneris/",
+          "datasetVersion": "demo-1.0",
+          "retrievedAt": "2026-09-04",
+          "licenseId": "CC0-1.0",
+          "fields": [
+            "family",
+            "group",
+            "habit",
+            "description",
+            "origin",
+            "features",
+            "uses",
+            "aliases"
+          ],
+          "note": "基于参考网页中的事实独立整理；不复制原站文字，也不将原站内容重新授权为 CC0。"
+        }
+      ],
+      "externalIds": {
+        "wikidata": "Q4678994",
+        "wfo": null,
+        "wcvp": null,
+        "ipni": null
+      }
+    },
+    {
+      "id": "flora:metasequoia-glyptostroboides",
+      "slug": "metasequoia-glyptostroboides",
+      "displayOrder": 12,
+      "scientificName": "Metasequoia glyptostroboides",
+      "authorship": "Hu & W.C.Cheng",
+      "rank": "species",
+      "taxonomicStatus": "demo-reference",
+      "acceptedTaxonId": null,
+      "parentTaxonId": "flora:genus:Metasequoia",
+      "commonNames": [
+        {
+          "name": "水杉",
+          "language": "zh-Hans",
+          "preferred": true,
+          "sourceId": "wikidata",
+          "sourceRecordId": "Q156800"
+        },
+        {
+          "name": "Dawn redwood",
+          "language": "en",
+          "preferred": false,
+          "sourceId": "editorial"
+        }
+      ],
+      "synonyms": [],
+      "group": "gymnosperms",
+      "family": {
+        "name": "Cupressaceae",
+        "zh": "柏科"
+      },
+      "genus": {
+        "name": "Metasequoia",
+        "zh": "水杉属"
+      },
+      "habit": "乔木",
+      "useCategories": [
+        "绿化",
+        "观赏"
+      ],
+      "tagline": "一棵树，留住远古的回响。",
+      "description": "落叶针叶乔木，枝叶排列整齐，秋季可转为铜褐色。原产中国，是著名的孑遗植物。",
+      "origin": "中国",
+      "features": "线形叶对生，常排成两列；幼树树冠呈圆锥形。",
+      "uses": [
+        {
+          "category": "绿化",
+          "summary": "用于公园、校园和道路等开阔场地的景观绿化。",
+          "sourceId": "editorial",
+          "referenceUrl": "https://plants.ces.ncsu.edu/plants/metasequoia-glyptostroboides/",
+          "licenseId": "CC0-1.0",
+          "reviewStatus": "demo-curated"
+        },
+        {
+          "category": "观赏",
+          "summary": "用于公园、校园和道路等开阔场地的景观绿化。",
+          "sourceId": "editorial",
+          "referenceUrl": "https://plants.ces.ncsu.edu/plants/metasequoia-glyptostroboides/",
+          "licenseId": "CC0-1.0",
+          "reviewStatus": "demo-curated"
+        }
+      ],
+      "useSummary": "用于公园、校园和道路等开阔场地的景观绿化。",
+      "notice": "",
+      "mediaId": "metasequoia-glyptostroboides",
+      "sourceRecords": [
+        {
+          "sourceId": "wikidata",
+          "recordId": "Q156800",
+          "sourceUrl": "https://www.wikidata.org/wiki/Q156800",
+          "datasetVersion": "retrieved-2026-09-04",
+          "retrievedAt": "2026-09-04",
+          "licenseId": "CC0-1.0",
+          "fields": [
+            "scientificName",
+            "authorship",
+            "preferredCommonName",
+            "genus"
+          ]
+        },
+        {
+          "sourceId": "editorial",
+          "recordId": "demo-metasequoia-glyptostroboides",
+          "sourceUrl": "https://plants.ces.ncsu.edu/plants/metasequoia-glyptostroboides/",
+          "datasetVersion": "demo-1.0",
+          "retrievedAt": "2026-09-04",
+          "licenseId": "CC0-1.0",
+          "fields": [
+            "family",
+            "group",
+            "habit",
+            "description",
+            "origin",
+            "features",
+            "uses",
+            "aliases"
+          ],
+          "note": "基于参考网页中的事实独立整理；不复制原站文字，也不将原站内容重新授权为 CC0。"
+        }
+      ],
+      "externalIds": {
+        "wikidata": "Q156800",
+        "wfo": null,
+        "wcvp": null,
+        "ipni": null
+      }
+    }
+  ]
+}

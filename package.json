@@ -1,0 +1,11 @@
+{
+  "name": "flora-atlas",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "start": "python -m http.server 4173 --bind 0.0.0.0 --directory public",
+    "test": "node --test tests/domain.test.js",
+    "build": "node scripts/validate.mjs && node scripts/build.mjs"
+  }
+}
