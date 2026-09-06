@@ -20,7 +20,7 @@ Desktop reading styles are in `public/desktop.css`; section navigation and its a
 
 `public/data.json` holds structured specimen-like reference records, never invented WFO or WCVP identifiers. `public/media.json` holds individual image creators, original URLs, licenses and modification notices. Independently authored Chinese summaries are CC0; reference-site prose is not copied or relicensed. Images remain under their own CC BY / CC0 licenses.
 
-Fonts are local subsets of Noto CJK, renamed Flora Serif / Flora Sans. They retain SIL Open Font License 1.1; see `public/assets/OFL.txt`. Original fonts: https://github.com/notofonts/noto-cjk . Subsetting happened locally.
+Fonts are local subsets of Noto CJK, renamed Flora Serif / Flora Sans. They retain SIL Open Font License 1.1; see `public/fonts/OFL.txt`. Original fonts: https://github.com/notofonts/noto-cjk . Subsetting happened locally.
 
 The prototype references standard botanical facts and is not a field identification or medical tool. Source records explicitly say `demo-reference` and `demo-curated`; full-list ingestion and expert review have not happened.
 

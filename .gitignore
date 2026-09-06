@@ -3,3 +3,10 @@ node_modules/
 *.tar.gz
 __pycache__/
 dist/
+
+# SQL 与数据目录
+sql/
+.openai/sql/
+data/
+public/assets
+wrangler-account.json
