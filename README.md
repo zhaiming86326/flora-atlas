@@ -50,9 +50,9 @@ The existing `.openai/hosting.json` binds this checkout to its Sites project. Th
 This repository can also deploy the Worker API plus static `dist/` assets directly to Cloudflare with Wrangler. Pushes to `main` run `.github/workflows/deploy-cloudflare.yml`, which:
 
 1. builds deployable static assets with `npm run build:deploy`;
-2. applies D1 migrations for `flora-atlas` from `migrations/main`;
-3. applies the idempotent content schema SQL for `plants-content-01`;
-4. deploys `worker/index.js` and `dist/` through `wrangler.jsonc`.
+2. deploys `worker/index.js` and `dist/` through `wrangler.jsonc`.
+
+D1 migrations are intentionally manual to avoid spending read quota on every code push. Use the workflow dispatch input `run_migrations=true` when schema changes need to be applied.
 
 In GitHub, add repository secrets:
 
@@ -79,4 +79,10 @@ npx wrangler d1 migrations apply flora-atlas --remote
 npx wrangler d1 execute flora-atlas --remote --file ".\wcvp-backbone-import.sql"
 ```
 
-After the initial data load, ordinary GitHub pushes update code, assets and schema migrations automatically.
+After the initial data load, ordinary GitHub pushes update code and assets automatically; schema/data refreshes are run deliberately when needed.
+
+Refresh the small summary cache after a catalogue import or after applying `migrations/main/0002_summary_cache.sql`:
+
+```powershell
+npx wrangler d1 execute flora-atlas --remote --file ".\db\import\refresh-summary-cache.sql"
+```

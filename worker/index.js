@@ -35,6 +35,16 @@ function error(message, status = 400) {
   return json({ error: message }, status);
 }
 
+function codedError(code, message, status = 400) {
+  return json({ error: message, code }, status);
+}
+
+function isD1DailyLimitError(caught) {
+  return String(caught?.message || caught || '').includes('exceeded D1') ||
+    String(caught?.message || caught || '').includes('daily row read limit') ||
+    String(caught?.message || caught || '').includes('[code: 7500]');
+}
+
 function requireDb(env) {
   if (!env.DB) throw new Response(JSON.stringify({ error: 'D1 binding DB is not configured.' }), {
     status: 503,
@@ -168,7 +178,24 @@ async function getFamilies(db) {
   return rows.results ?? [];
 }
 
-async function getSummary(db) {
+async function getCachedSummary(db) {
+  const [statsRow, familyRows, lifeformRows] = await Promise.all([
+    db.prepare('SELECT plants, families FROM catalog_summary_stats WHERE id = 1').first(),
+    db.prepare('SELECT id, name, zh, count FROM catalog_summary_families ORDER BY sort_order ASC, zh COLLATE NOCASE ASC, name COLLATE NOCASE ASC').all(),
+    db.prepare('SELECT id, name, count FROM catalog_summary_lifeforms ORDER BY sort_order ASC').all(),
+  ]);
+  const families = familyRows.results ?? [];
+  const lifeforms = lifeformRows.results ?? [];
+  if (!statsRow || !families.length) return null;
+  return {
+    stats: { plants: statsRow.plants ?? 0, families: statsRow.families ?? families.length },
+    groups: GROUPS,
+    lifeforms: lifeforms.length ? lifeforms : LIFEFORM_FILTERS.map(filter => ({ id: filter.id, name: filter.name, count: 0 })),
+    families,
+  };
+}
+
+async function getLiveSummary(db) {
   const species = await db.prepare(`
     SELECT COUNT(*) AS count
     FROM accepted_species_zh
@@ -193,11 +220,41 @@ async function getSummary(db) {
   };
 }
 
+async function getSummary(db) {
+  try {
+    const cached = await getCachedSummary(db);
+    if (cached) return cached;
+  } catch (caught) {
+    if (isD1DailyLimitError(caught)) throw caught;
+    // Cache tables may not exist yet; fall back to the live aggregate path.
+  }
+  return getLiveSummary(db);
+}
+
+async function getCachedTotal(db, params) {
+  if (params.q || params.lifeforms?.length) return null;
+  if (params.family) {
+    const row = await db.prepare('SELECT count FROM catalog_summary_families WHERE id = ? OR zh = ? LIMIT 1')
+      .bind(params.family, params.family).first();
+    return row?.count ?? null;
+  }
+  const row = await db.prepare('SELECT plants FROM catalog_summary_stats WHERE id = 1').first();
+  return row?.plants ?? null;
+}
+
 async function listPlants(db, params, env) {
   const where = plantWhere(params);
   const from = speciesFrom();
-  const totalRow = await db.prepare(`SELECT COUNT(*) AS total ${from} WHERE ${where.sql}`).bind(...where.binds).first();
-  const total = totalRow?.total ?? 0;
+  let total = null;
+  try {
+    total = await getCachedTotal(db, params);
+  } catch (caught) {
+    if (isD1DailyLimitError(caught)) throw caught;
+  }
+  if (total === null) {
+    const totalRow = await db.prepare(`SELECT COUNT(*) AS total ${from} WHERE ${where.sql}`).bind(...where.binds).first();
+    total = totalRow?.total ?? 0;
+  }
   const pages = Math.max(1, Math.ceil(total / params.limit));
   const requestedPage = Math.floor(params.offset / params.limit) + 1;
   const page = Math.max(1, Math.min(pages, requestedPage));
@@ -304,6 +361,13 @@ export async function handleRequest(request, env) {
     return error('Not found', 404);
   } catch (caught) {
     if (caught instanceof Response) return caught;
+    if (isD1DailyLimitError(caught)) {
+      return codedError(
+        'D1_DAILY_READ_LIMIT',
+        'Cloudflare D1 今日免费读取额度已用完，请在 UTC 午夜重置后再试，或升级 Cloudflare 计划。',
+        503,
+      );
+    }
     console.error(caught);
     return error('Internal error', 500);
   }

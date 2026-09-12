@@ -43,7 +43,14 @@ export class PlantApiRepository {
  constructor(base=CLOUD_API_BASE){this.base=base;this.detailCache=new Map()}
  async getJSON(path){
   const response=await fetch(this.base+path);
-  if(!response.ok)throw Error('植物数据暂时无法载入');
+  if(!response.ok){
+   let detail = {};
+   try { detail = await response.json(); } catch {}
+   const message = detail.code === 'D1_DAILY_READ_LIMIT'
+    ? detail.error
+    : '云端植物数据暂时无法载入';
+   throw Error(message);
+  }
   return response.json();
  }
  async loadSummary(){return this.getJSON('/api/summary')}

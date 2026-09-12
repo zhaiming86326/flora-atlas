@@ -57,7 +57,9 @@ async function loadSummary() {
   try {
     repo = new PlantApiRepository();
     summary = await repo.loadSummary();
-  } catch {
+  } catch (error) {
+    const local = ['localhost', '127.0.0.1', ''].includes(location.hostname);
+    if (!local) throw error;
     repo = new StaticPagedRepository();
     summary = await repo.loadSummary();
   }
