@@ -1,12 +1,18 @@
 node_modules/
+.wrangler/
 .DS_Store
 *.tar.gz
 __pycache__/
 dist/
+*.sqlite
+*.sqlite-shm
+*.sqlite-wal
+*-import.sql
 
 # SQL 与数据目录
 sql/
 .openai/sql/
 data/
+plants-content-01/
 public/assets
 wrangler-account.json

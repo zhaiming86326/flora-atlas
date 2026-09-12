@@ -1,0 +1,25 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "flora-atlas-api",
+  "main": "worker/index.js",
+  "compatibility_date": "2026-09-12",
+  "assets": {
+    "directory": "./dist",
+    "binding": "ASSETS",
+    "run_worker_first": [
+      "/api/*"
+    ]
+  },
+  "vars": {
+    "R2_IMAGE_PREFIX": "https://pub-3517da5ed83f46628c557cd926a014a5.r2.dev/imgs",
+    "R2_IMAGE_EXTENSION": "webp"
+  },
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "flora-atlas",
+      "database_id": "8303816f-02bc-4f94-a6f8-60e81fecabc5",// 8303816f-02bc-4f94-a6f8-60e81fecabc5
+      "migrations_dir": "migrations/main"
+    }
+  ]
+}

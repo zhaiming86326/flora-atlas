@@ -5,7 +5,11 @@
   "type": "module",
   "scripts": {
     "start": "python -m http.server 4173 --bind 0.0.0.0 --directory public",
-    "test": "node --test tests/domain.test.js",
-    "build": "node scripts/validate.mjs && node scripts/build.mjs"
+    "test": "node --test tests/*.test.js",
+    "build": "node scripts/split-demo-data.mjs && node scripts/validate.mjs && node scripts/build.mjs",
+    "build:deploy": "node scripts/split-demo-data.mjs && node scripts/build.mjs",
+    "deploy": "npx wrangler deploy",
+    "db:migrate:main": "npx wrangler d1 migrations apply flora-atlas --remote",
+    "db:migrate:content": "npx wrangler d1 execute plants-content-01 --remote --file migrations/content/0001_wikipedia_sources.sql"
   }
 }

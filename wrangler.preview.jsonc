@@ -1,0 +1,28 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "flora-atlas-api",
+  "main": "worker/index.js",
+  "compatibility_date": "2026-09-12",
+  "vars": {
+    "WIKI_PREVIEW_ENABLED": "true",
+    "WIKIMEDIA_CONTACT": "mailto:mingming86326@163.com",
+	  "WIKI_PROXY_URL": "http://127.0.0.1:8790",
+    "WIKI_IMPORT_ENABLED": "true"
+  },
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "flora-atlas",
+      "database_id": "8303816f-02bc-4f94-a6f8-60e81fecabc5",
+      "migrations_dir": "migrations/main",
+      "remote": false
+    },
+    {
+      "binding": "CONTENT_DB",
+      "database_name": "plants-content-01",
+      "database_id": "plants-content-01-local",
+      "migrations_dir": "migrations/content",
+      "remote": false
+    }
+  ]
+}
