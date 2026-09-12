@@ -69,6 +69,7 @@
   .card-body { padding: 20px 18px 0; }
   .card-heading h3 { font-size: 24px; }
   .card-heading .icon { width: 19px; height: 19px; }
+  .card-subtitle { font-family: Georgia, serif; font-style: italic; font-size: 16px; color: #748368; }
   .latin-name { font-size: 16px; line-height: 1.5; min-height: 24px; color: #748368; }
   .card-taxonomy { font-size: 14px; color: #758268; gap: 8px; }
   .tagline { font-size: 14px; line-height: 1.8; min-height: 51px; color: #758268; }
@@ -87,17 +88,20 @@
   .empty-state h3 { font-size: 26px; }
   .empty-state p, .empty-state button { font-size: 16px; }
 
-  .sources-section { padding: 48px 0; }
+  .sources-section { padding: 54px 0; }
+  .sources-section .wrap { display: grid; grid-template-columns: 360px minmax(0, 1fr); gap: 48px; align-items: start; }
+  .sources-intro { display: block; margin-bottom: 0; padding-right: 12px; }
   .sources-intro .eyebrow { font-size: 11px; }
-  .sources-intro h2 { font-size: 32px; }
-  .sources-intro p:not(.eyebrow) { font-size: 16px; color: #6d7d60; }
+  .sources-intro h2 { font-size: 32px; line-height: 1.55; margin-bottom: 18px; }
+  .sources-intro p:not(.eyebrow) { font-size: 16px; color: #6d7d60; line-height: 2; max-width: 315px; }
   .outline-button { font-size: 15px; padding: 14px 20px; }
   .outline-button .icon { width: 18px; height: 18px; }
-  .source-cards { gap: 36px; }
+  .source-cards { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 36px; align-self: stretch; }
+  .source-cards article { display: flex; min-height: 184px; flex-direction: column; }
   .source-number { font-size: 11px; }
   .source-cards h3 { font-size: 18px; }
-  .source-cards p { font-size: 16px; line-height: 1.9; max-width: none; min-height: 61px; color: #708263; }
-  .source-cards a, .source-cards button { font-size: 14px; }
+  .source-cards p { font-size: 16px; line-height: 1.9; max-width: none; min-height: 0; color: #708263; }
+  .source-cards a, .source-cards button { font-size: 14px; margin-top: auto; }
   footer { font-size: 13px; color: #79876c; padding: 30px 0; }
   .footer-brand { font-size: 19px; }
 

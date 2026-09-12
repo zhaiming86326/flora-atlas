@@ -1,76 +1,126 @@
-# 草木集 · 数据结构与全量接入设计
+# 草木集 · D1/R2 分层加载架构
 
-版本：2026-09-04 / prototype 1.0
+版本：2026-09-08 / prototype 1.1
 
-## 当前已实现
+## 当前目标
 
-- 12 种精简示例、9 科、12 属、3 个植物类群。
-- 分类树、科和属筛选、中文名/学名/别名/异名搜索、用途交叉筛选、排序、分页、图鉴与列表切换。
-- 可直接打开与刷新的 `#plant/<slug>` 详情链接；搜索与筛选状态存入 URL。
-- 逐字段来源和版本，逐图作者、许可、来源链接。示例全部本地随站分发，核心功能不依赖第三方 API。
-- `public/domain.js` 封装数据访问与查询；以新的 API Repository 替换 DemoPlantRepository 即可逐步迁移服务端。
-- 没有数据库后台、登录管理页面或自动全量更新。Sites 的部署访问控制提供仅所有者访问。
+页面分三层加载，避免一打开就从数据库拉取大量植物详情：
 
-## 为什么将名称、来源和用途分开
+- 首屏“草木有名，万物可识”：只请求 `/api/summary`，拿到物种总数、科数量、固定 3 类，以及所有科的基础数据。
+- 植物分页层：用户滚动到图鉴区域后才请求 `/api/plants`，每页只返回植物基础卡片信息。
+- 详情层：点击某个植物后才请求 `/api/plants/:taxon_id`，返回完整文字、来源、图片等详情。
 
-一个学名字符串不能作为跨数据源的唯一主键。相同学名在不同来源、不同版本中可能有不同接受状态；异名可能指向另一条接受名记录。中文名也可能一名多物。
+首屏拿到的所有科会缓存在浏览器内，用来填充“按科筛选”。筛选项显示为：
 
-使用站内稳定 `taxon_id` 表示经审核的展示记录；`source_records` 用 `(release_id, external_id)` 唯一定位某批次的来源记录。跨来源映射写入 `taxon_source_mappings`，明确匹配依据与审核时间。重新导入不能静默覆盖旧版本。
-
-`parent_external_id` 和 `accepted_external_id` 保留原数据源标识；完整导入后再解析关系。WCVP 的接受名指向自身是合法来源语义。跨来源仅用同名不能认定物种相同；优先检查标识符、命名人、等级、接受关系，再进入人工审核。
-
-用途独立存放在 `use_assertions`，保留用途分类、部位、参考文献、许可与审核状态。媒体独立存储，图片文件与文字数据分别授权。植物名称和分类名录本身不等于完整的用途数据库。
-
-## 数据源及许可
-
-- 名称与标识符：[Wikidata](https://www.wikidata.org/) 结构化数据；[CC0 许可说明](https://www.wikidata.org/wiki/Wikidata:Licensing)。示例逐条记录来源 URL。
-- 中文摘要独立编写，采用 CC0 1.0；形态、园艺与用途事实参考 [NC State Extension Gardener Plant Toolbox](https://plants.ces.ncsu.edu/)，未复制其原文、未把参考站原文重新授权为 CC0。
-- 摄影作者、原始 URL、CC BY / CC0 许可与改动说明见 `media.json` 与站内署名页。图片压缩、网页裁切。下载数据 JSON 不包含图片文件授权的转移。
-- 中文别名为手工编辑示例，未声称是某地区官方命名；部分俗名可能跨物种共用。
-
-## 批量导入
-
-`scripts/import-taxonomy.py` 是本地转换器，读取**已解压且有表头**的 UTF-8 文件。它不会下载、调用网站后台或写外部数据库。
-
-支持 WFO 的 Darwin Core 名称表和 WCVP 的名称表。WFO 的 ColDP zip 和 JSON 分发不是相同格式，不能直接交给此适配器；应先按对应格式转换。运行必须明确数据源、版本、下载 URL、许可标识和许可 URL，避免猜测授权。
-
-```bash
-python scripts/import-taxonomy.py names.txt --format wcvp --version 2026-06 \
-  --source-url https://sftp.kew.org/pub/data-repositories/WCVP/wcvp.zip \
-  --license CC-BY-4.0 --license-url https://creativecommons.org/licenses/by/4.0/ \
-  --output staging/wcvp-2026-06.jsonl
+```text
+中文科名（English family）
 ```
 
-示例版本仅演示参数，不承诺该快照的字段与许可可不经检查直接采用。应对照所下载版本的 README、元数据和许可。转换器检查必需列、重复 ID、缺失名称，保留全部原始行，输出 SHA-256、记录数、异常引用数与批次元数据。出现缺失关系时阻止直接入正式表，需要检查日志。
+## D1 表设计
 
-| 展示域 | WFO Darwin Core | WCVP 名称表 |
-|---|---|---|
-| 来源标识 | taxonID | plant_name_id |
-| 学名 | scientificName | taxon_name |
-| 命名人 | scientificNameAuthorship | taxon_authors |
-| 等级 | taxonRank | taxon_rank |
-| 状态 | taxonomicStatus | taxon_status |
-| 接受名引用 | acceptedNameUsageID | accepted_plant_name_id |
-| 父级引用 | parentNameUsageID | 若提供 parent_plant_name_id 则保留；否则为空 |
-| 科 / 属 | family / genus | family / genus |
-| IPNI | 仅明确 IPNI 字段时导入 | ipni_id |
+Cloudflare D1 数据库名：`flora-atlas`。
 
-WCVP 原始名称表不保证提供完整父级 ID；不能凭 genus 字符串伪造父记录。使用后续解析阶段查找真实来源记录，或引入对应 DwC 分类层级。保留未知状态和来源原文，不强行改成 accepted。
+`taxa` 是物种分页主表，只放适合列表查询和详情定位的物种记录。`family_taxon_id` 和 `genus_taxon_id` 是上级分类单元 ID，但不设置强外键，因为现有数据中有些 ID 缺失或无法完全匹配，例如 `wfo-4000000988`。
 
-来源格式依据：[Darwin Core 术语](https://dwc.tdwg.org/list/)、[WFO 数据贡献约定](https://www.worldfloraonline.org/contribute)、[WCVP 名称表字段](https://matildabrown.github.io/rWCVPdata/reference/wcvp_names.html)。WFO 分发格式参见[发布样例](https://zenodo.org/records/15704590)；WCVP 发布入口见[官方目录](https://sftp.kew.org/pub/data-repositories/WCVP/)。
+`higher_taxa` 存放科、属等上级分类单元：
 
-## 后续部署结构
+```text
+taxa
+  family_taxon_id  -> higher_taxa.taxon_id（尽量匹配，不强制）
+  genus_taxon_id   -> higher_taxa.taxon_id（尽量匹配，不强制）
 
-建议保留当前静态前端，接入 PostgreSQL 及只读查询 API。图片使用对象存储与缩略图；不把全量照片或植物名录整体塞入浏览器。该方案尚未配置或购买外部服务。
+higher_taxa
+  taxon_id
+  taxon_rank
+  scientific_name
+  chinese_name
+```
 
-`public/schema.sql` 提供 PostgreSQL 16+ 目标表结构。由暂存表完成名称映射与外键检查后，再事务化写正式表。来源批次带版本和校验和，失败可回滚，旧版本可追踪。
+列表查询可以一次性左连接科属：
 
-建议 API：
+```sql
+SELECT
+  t.taxon_id,
+  t.scientific_name,
+  t.chinese_name,
+  t.family_taxon_id,
+  t.genus_taxon_id,
+  family.scientific_name AS family_name,
+  family.chinese_name AS family_chinese_name,
+  genus.scientific_name AS genus_name,
+  genus.chinese_name AS genus_chinese_name
+FROM taxa t
+LEFT JOIN higher_taxa family ON family.taxon_id = t.family_taxon_id
+LEFT JOIN higher_taxa genus ON genus.taxon_id = t.genus_taxon_id
+WHERE lower(coalesce(t.taxon_rank, 'species')) = 'species'
+LIMIT ? OFFSET ?;
+```
 
-- `GET /api/plants?q=&group=&family=&genus=&use=&sort=&cursor=&limit=24`
-- `GET /api/plants/:taxon_id`
-- `GET /api/facets?group=&family=&q=`
+使用 `LEFT JOIN` 是有意的：上级分类缺失时，物种仍然能展示，只是科属名称回退为空或 ID。
 
-响应统一为 `{items,total,nextCursor,facets,datasetVersion}`。分页和筛选在服务端执行；学名、中文名、别名、异名进入 `search_names`。精确匹配用 B-tree，模糊匹配可用 pg_trgm（以托管数据库实际支持为准）；中文全文分词可在后续单独评估。前端查询参数要校验，限制 limit，SQL 必须参数化。
+## API
 
-图鉴页的分类组是浏览标签，不伪装为同一分类阶元。示例中的 `parentTaxonId` 使用编辑命名空间指向 genus，未来应从规范化 taxonomy 节点表生成全部父级记录；目前 UI 使用内嵌科属事实生成浏览树。
+Worker 暴露四个读接口：
+
+```text
+GET /api/summary
+GET /api/families
+GET /api/plants?limit=24&offset=0&q=&group=&family=&sort=name
+GET /api/plants/:taxon_id
+```
+
+`/api/summary` 返回：
+
+```json
+{
+  "stats": {
+    "species": 12345,
+    "families": 456,
+    "groups": 3
+  },
+  "groups": [
+    {"id": "angiosperms", "name": "被子植物"},
+    {"id": "gymnosperms", "name": "裸子植物"},
+    {"id": "ferns", "name": "蕨类植物"}
+  ],
+  "families": [
+    {
+      "id": "wfo-7000000051",
+      "name": "Rosaceae",
+      "chineseName": "蔷薇科"
+    }
+  ]
+}
+```
+
+`/api/plants` 只返回分页卡片需要的基础字段，不返回大段详情文本。这样滚动、搜索、翻页和按科筛选都不会扫出整库详情。
+
+`/api/plants/:taxon_id` 才返回详情页字段，适合之后继续扩展描述、分布、用途、来源、许可等内容。
+
+## R2 图片
+
+图片已上传到 Cloudflare R2：
+
+```text
+https://pub-3517da5ed83f46628c557cd926a014a5.r2.dev/imgs
+```
+
+当前约定：图片文件名使用小写物种学名，空格替换为中划线。Worker 会按学名生成图片地址：
+
+```text
+Abelmoschus manihot -> /imgs/abelmoschus-manihot.webp
+```
+
+如果实际图片扩展名不是 `.webp`，可以通过 Worker 环境变量 `R2_IMAGE_EXTENSION` 调整。
+
+## 静态 fallback
+
+本地构建会把 `public/data.json` 拆成：
+
+```text
+public/summary.json
+public/plant-list.json
+public/plant-details/<slug>.json
+```
+
+当 Worker API 不可用时，前端自动回退到这些静态文件，仍然保持同样的三层加载模型。这个 fallback 只用于开发和演示，不替代正式 D1 数据。

@@ -18,6 +18,9 @@ const LIFEFORM_FILTERS = [
 const jsonHeaders = {
   'content-type': 'application/json; charset=utf-8',
   'cache-control': 'public, max-age=60',
+  'access-control-allow-origin': '*',
+  'access-control-allow-methods': 'GET, OPTIONS',
+  'access-control-allow-headers': 'content-type',
 };
 
 const normalize = value => String(value ?? '').normalize('NFKC').toLowerCase().trim().replace(/\s+/g, ' ');
@@ -278,6 +281,7 @@ export async function handleRequest(request, env) {
   const path = url.pathname.replace(/\/+$/, '') || '/';
 
   try {
+    if (request.method === 'OPTIONS') return new Response(null, { status: 204, headers: jsonHeaders });
     if (path === '/api/health') return json({ ok: true, hasDb: Boolean(env.DB) });
     if (!path.startsWith('/api/')) {
       return env.ASSETS ? env.ASSETS.fetch(request) : error('Not found', 404);
