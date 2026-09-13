@@ -16,3 +16,5 @@ data/
 plants-content-01/
 public/assets
 wrangler-account.json
+.wrangler-d1-list.json
+wrangler.enrichment.generated.jsonc

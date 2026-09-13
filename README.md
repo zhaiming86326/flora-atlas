@@ -50,7 +50,9 @@ The existing `.openai/hosting.json` binds this checkout to its Sites project. Th
 This repository can also deploy the Worker API plus static `dist/` assets directly to Cloudflare with Wrangler. Pushes to `main` run `.github/workflows/deploy-cloudflare.yml`, which:
 
 1. builds deployable static assets with `npm run build:deploy`;
-2. deploys `worker/index.js` and `dist/` through `wrangler.jsonc`.
+2. deploys `worker/index.js` and `dist/` through `wrangler.jsonc`;
+3. resolves D1 IDs for `flora-atlas` and `plants-content-01`;
+4. deploys the scheduled Wikimedia enrichment Worker from `worker/wiki-batch.js`.
 
 D1 migrations are intentionally manual to avoid spending read quota on every code push. Use the workflow dispatch input `run_migrations=true` when schema changes need to be applied.
 
@@ -62,6 +64,23 @@ CLOUDFLARE_ACCOUNT_ID
 ```
 
 The API token needs permission to edit Workers and D1 for this account. `wrangler.jsonc` is production-oriented and only binds the main read API database. It does not enable the local Wikimedia import endpoints. `wrangler.preview.jsonc` remains the local-only config for VPN/proxy-assisted Wikimedia preview/import testing.
+
+The scheduled enrichment Worker is deployed as `flora-atlas-enrichment`. It binds both D1 databases, verifies a target through Wikidata/Wikipedia first, then writes fixed-revision Chinese Wikipedia wikitext snapshots into `plants-content-01`. The default cron runs every six hours and imports at most one pending target per run. This is intentionally conservative; raise `WIKI_BATCH_SIZE` in `scripts/write-enrichment-wrangler-config.mjs` only after checking Worker logs, Wikimedia response behavior, and D1 quota.
+
+To enable manual cloud batch runs, set a Worker secret on `flora-atlas-enrichment`:
+
+```powershell
+npx wrangler secret put ENRICHMENT_RUN_SECRET --name flora-atlas-enrichment
+```
+
+Then POST with `Authorization: Bearer <secret>`:
+
+```powershell
+Invoke-RestMethod `
+  -Method Post `
+  -Uri "https://flora-atlas-enrichment.<your-subdomain>.workers.dev/api/enrichment/batch?limit=1" `
+  -Headers @{ Authorization = "Bearer <secret>" }
+```
 
 ### D1 schema and data
 
@@ -85,4 +104,10 @@ Refresh the small summary cache after a catalogue import or after applying `migr
 
 ```powershell
 npx wrangler d1 execute flora-atlas --remote --file ".\db\import\refresh-summary-cache.sql"
+```
+
+Prepare the content database before the scheduled enrichment Worker runs:
+
+```powershell
+npx wrangler d1 execute plants-content-01 --remote --file ".\migrations\content\0001_wikipedia_sources.sql"
 ```
