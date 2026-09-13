@@ -209,13 +209,14 @@ async function tableExists(db, name) {
 }
 
 async function requiredTablesReady(env) {
-  const [documents, versions, links, state] = await Promise.all([
+  const [documents, versions, links, state, extracts] = await Promise.all([
     tableExists(env.CONTENT_DB, 'source_documents'),
     tableExists(env.CONTENT_DB, 'source_document_versions'),
     tableExists(env.CONTENT_DB, 'taxon_document_links'),
     tableExists(env.CONTENT_DB, 'wiki_import_state'),
+    tableExists(env.CONTENT_DB, 'wikipedia_article_extracts'),
   ]);
-  return documents && versions && links && state;
+  return documents && versions && links && state && extracts;
 }
 
 async function runCsvBatch(env, options, targets) {

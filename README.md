@@ -65,7 +65,7 @@ CLOUDFLARE_ACCOUNT_ID
 
 The API token needs permission to edit Workers and D1 for this account. `wrangler.jsonc` is production-oriented and only binds the main read API database. It does not enable the local Wikimedia import endpoints. `wrangler.preview.jsonc` remains the local-only config for VPN/proxy-assisted Wikimedia preview/import testing.
 
-The scheduled enrichment Worker is deployed as `flora-atlas-enrichment`. It reads target metadata from `db/import/wiki-enrichment-targets.csv`, verifies a target through Wikidata/Wikipedia first, then writes fixed-revision Chinese Wikipedia wikitext snapshots into `plants-content-01`. It does not bind or read the main `flora-atlas` D1 database, so the crawler does not spend catalogue read quota. The content DB still records a tiny `wiki_import_state.next_index` cursor plus imported source rows. The default cron runs every six hours and imports at most one CSV target per run. This is intentionally conservative; raise `WIKI_BATCH_SIZE` in `scripts/write-enrichment-wrangler-config.mjs` only after checking Worker logs, Wikimedia response behavior, and D1 quota.
+The scheduled enrichment Worker is deployed as `flora-atlas-enrichment`. It reads target metadata from `db/import/wiki-enrichment-targets.csv`, verifies a target through Wikidata and the Chinese Wikipedia page QID first, then writes fixed-revision Chinese Wikipedia wikitext snapshots into `plants-content-01`. It also stores review-only extracted fields in `wikipedia_article_extracts`: lead, morphology, uses, cultivation, propagation, varieties, nutrition and conservation status. Images are not extracted. It does not bind or read the main `flora-atlas` D1 database, so the crawler does not spend catalogue read quota. The content DB still records a tiny `wiki_import_state.next_index` cursor plus imported source rows. The default cron runs every six hours and imports at most one CSV target per run. This is intentionally conservative; raise `WIKI_BATCH_SIZE` in `scripts/write-enrichment-wrangler-config.mjs` only after checking Worker logs, Wikimedia response behavior, and D1 quota.
 
 Regenerate the CSV target manifest from a local SQL import file when the catalogue changes:
 
@@ -95,6 +95,7 @@ Schema lives in committed migrations:
 - `migrations/main/0001_catalog_schema.sql`: the main catalogue tables, indexes and views.
 - `migrations/content/0001_wikipedia_sources.sql`: reviewed Wikimedia source snapshots.
 - `migrations/content/0002_wiki_import_state.sql`: CSV crawler cursor state.
+- `migrations/content/0003_wikipedia_article_extracts.sql`: review-only extracted article fields.
 
 Bulk catalogue data is intentionally separate from migrations. The generated `wcvp-backbone-import.sql` is about 388 MB, which is too large for normal GitHub commits and should not run on every code push. Import it once from a local machine with Wrangler, or split smaller SQL files under `db/import/` and run the manual `Import D1 SQL` GitHub workflow.
 
@@ -118,4 +119,5 @@ Prepare the content database before the scheduled enrichment Worker runs:
 ```powershell
 npx wrangler d1 execute plants-content-01 --remote --file ".\migrations\content\0001_wikipedia_sources.sql"
 npx wrangler d1 execute plants-content-01 --remote --file ".\migrations\content\0002_wiki_import_state.sql"
+npx wrangler d1 execute plants-content-01 --remote --file ".\migrations\content\0003_wikipedia_article_extracts.sql"
 ```

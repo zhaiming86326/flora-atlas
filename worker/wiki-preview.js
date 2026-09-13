@@ -239,8 +239,8 @@ export function createWikiPreviewHandler({ fetchImpl = fetch, now = Date.now,
       }
       const candidates = candidateIds.filter(qid => entities[qid] && entities[qid].missing === undefined)
         .map(qid => assess(entities[qid], target, entities, synonyms));
-      // Validate both language pages in one request per language, including redirects.
-      for (const language of ['zh', 'en']) {
+      // Safe cloud import only needs the verified Chinese Wikipedia page.
+      for (const language of ['zh']) {
         const linked = candidates.map(candidate => ({ candidate,
           title: entities[candidate.qid].sitelinks?.[`${language}wiki`]?.title })).filter(r => r.title);
         if (!linked.length) continue;

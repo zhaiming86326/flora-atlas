@@ -44,6 +44,7 @@ function harness() {
     CREATE TABLE source_document_versions(document_id TEXT, revision_id INTEGER);
     CREATE TABLE taxon_document_links(taxon_id TEXT, document_id TEXT);
     CREATE TABLE wiki_import_state(id INTEGER PRIMARY KEY, next_index INTEGER NOT NULL, updated_at TEXT NOT NULL);
+    CREATE TABLE wikipedia_article_extracts(document_id TEXT, revision_id INTEGER);
     INSERT INTO wiki_import_state VALUES (1, 0, '2026-09-13T00:00:00Z');
   `);
   const env = {

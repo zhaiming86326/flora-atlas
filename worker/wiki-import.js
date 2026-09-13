@@ -67,6 +67,92 @@ async function sha256(value) {
   return [...new Uint8Array(digest)].map(byte => byte.toString(16).padStart(2, '0')).join('');
 }
 
+function stripBalancedTemplates(text) {
+  let output = '';
+  let depth = 0;
+  for (let index = 0; index < text.length; index += 1) {
+    const pair = text.slice(index, index + 2);
+    if (pair === '{{') {
+      depth += 1;
+      index += 1;
+      continue;
+    }
+    if (pair === '}}' && depth) {
+      depth -= 1;
+      index += 1;
+      continue;
+    }
+    if (!depth) output += text[index];
+  }
+  return output;
+}
+
+function cleanWikitext(text) {
+  return stripBalancedTemplates(String(text || ''))
+    .replace(/<ref\b[^>]*>[\s\S]*?<\/ref>/gi, '')
+    .replace(/<ref\b[^/>]*\/>/gi, '')
+    .replace(/<!--[\s\S]*?-->/g, '')
+    .replace(/\[\[(?:File|Image|文件|圖像|图像):[^\]]+\]\]/gi, '')
+    .replace(/\[\[[^\]|]+\|([^\]]+)\]\]/g, '$1')
+    .replace(/\[\[([^\]]+)\]\]/g, '$1')
+    .replace(/\[https?:\/\/[^\s\]]+\s*([^\]]*)\]/g, '$1')
+    .replace(/'''?/g, '')
+    .replace(/&nbsp;/g, ' ')
+    .replace(/<br\s*\/?>/gi, '\n')
+    .replace(/<[^>]+>/g, '')
+    .replace(/^\s*[\*#:;]+/gm, '')
+    .replace(/[ \t]+\n/g, '\n')
+    .replace(/\n{3,}/g, '\n\n')
+    .trim();
+}
+
+function sectionMap(wikitext) {
+  const sections = new Map();
+  let current = 'lead';
+  let buffer = [];
+  function flush() {
+    sections.set(current, (sections.get(current) || '') + buffer.join('\n'));
+    buffer = [];
+  }
+  for (const line of String(wikitext || '').split(/\r?\n/)) {
+    const match = line.match(/^\s*={2,6}\s*(.*?)\s*={2,6}\s*$/);
+    if (match) {
+      flush();
+      current = match[1].trim();
+    } else {
+      buffer.push(line);
+    }
+  }
+  flush();
+  return sections;
+}
+
+function findSection(sections, patterns) {
+  for (const [title, body] of sections) {
+    if (title === 'lead') continue;
+    if (patterns.some(pattern => pattern.test(title))) return cleanWikitext(body);
+  }
+  return '';
+}
+
+function extractArticleFields(wikitext) {
+  const sections = sectionMap(wikitext);
+  const lead = cleanWikitext(sections.get('lead') || '').replace(/^\s*\|.*$/gm, '').trim();
+  const conservationFromSection = findSection(sections, [/保护状况/, /保育狀況/, /保护/, /保育/]);
+  const conservationFromTemplate = Array.from(String(wikitext || '').matchAll(/\|\s*(?:status|保护状况|保護狀況)\s*=\s*([^\n|}]+)/gi))
+    .map(match => cleanWikitext(match[1])).filter(Boolean).join('\n');
+  return {
+    lead_text: lead,
+    morphology_text: findSection(sections, [/形态/, /形態/, /特征/, /特徵/, /描述/]),
+    uses_text: findSection(sections, [/用途/, /利用/, /食用/, /药用/, /藥用/]),
+    cultivation_text: findSection(sections, [/栽培/, /种植/, /種植/]),
+    propagation_text: findSection(sections, [/繁殖/]),
+    varieties_text: findSection(sections, [/变种/, /變種/, /品种/, /品種/, /亚种/, /亞種/]),
+    nutrition_text: findSection(sections, [/每\s*100\s*g/i, /营养/, /營養/, /食物营养值/, /食物營養值/]),
+    conservation_status_text: conservationFromSection || conservationFromTemplate,
+  };
+}
+
 export function createWikiImportHandler({ previewHandler = handleWikiPreview, fetchImpl = fetch,
   now = () => new Date() } = {}) {
   let busy = false;
@@ -166,6 +252,7 @@ export function createWikiImportHandler({ previewHandler = handleWikiPreview, fe
         previewResult: preview.result,
       });
       const digest = await sha256(wikitext);
+      const extracted = extractArticleFields(wikitext);
       const statements = [
         env.CONTENT_DB.prepare(`INSERT INTO source_documents
           (document_id, source, language, external_page_id, wikidata_qid, title, canonical_url,
@@ -188,6 +275,23 @@ export function createWikiImportHandler({ previewHandler = handleWikiPreview, fe
             review_status='review', match_evidence_json=excluded.match_evidence_json,
             updated_at=excluded.updated_at`)
           .bind(taxonId, documentId, evidence, fetchedAt, fetchedAt),
+        env.CONTENT_DB.prepare(`INSERT INTO wikipedia_article_extracts
+          (document_id, revision_id, lead_text, morphology_text, uses_text, cultivation_text,
+           propagation_text, varieties_text, nutrition_text, conservation_status_text, extracted_at)
+          VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+          ON CONFLICT(document_id, revision_id) DO UPDATE SET
+            lead_text=excluded.lead_text,
+            morphology_text=excluded.morphology_text,
+            uses_text=excluded.uses_text,
+            cultivation_text=excluded.cultivation_text,
+            propagation_text=excluded.propagation_text,
+            varieties_text=excluded.varieties_text,
+            nutrition_text=excluded.nutrition_text,
+            conservation_status_text=excluded.conservation_status_text,
+            extracted_at=excluded.extracted_at`)
+          .bind(documentId, page.revisionId, extracted.lead_text, extracted.morphology_text,
+            extracted.uses_text, extracted.cultivation_text, extracted.propagation_text,
+            extracted.varieties_text, extracted.nutrition_text, extracted.conservation_status_text, fetchedAt),
       ];
       const batch = await env.CONTENT_DB.batch(statements);
       contentWritten = true;
@@ -201,6 +305,7 @@ export function createWikiImportHandler({ previewHandler = handleWikiPreview, fe
         source: { documentId, qid: candidate.qid, language: 'zh', title: page.title,
           pageId: page.pageId, revisionId: page.revisionId, permanentUrl,
           license: 'CC BY-SA 4.0', contentSha256: digest, wikitextBytes: new TextEncoder().encode(wikitext).byteLength },
+        extracted,
         versionCreated: Number(batch?.[1]?.meta?.changes || 0) > 0,
         notes: ['原始 wikitext 仅作来源快照，尚未清洗或发布。',
           '命名人尚未核验，因此目标状态为 review，而不是 done。'],

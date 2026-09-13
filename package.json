@@ -12,6 +12,6 @@
     "config:enrichment": "node scripts/write-enrichment-wrangler-config.mjs",
     "export:wiki-targets": "node scripts/export-wiki-targets-csv.mjs",
     "db:migrate:main": "npx wrangler d1 migrations apply flora-atlas --remote",
-    "db:migrate:content": "npx wrangler d1 execute plants-content-01 --remote --file migrations/content/0001_wikipedia_sources.sql && npx wrangler d1 execute plants-content-01 --remote --file migrations/content/0002_wiki_import_state.sql"
+    "db:migrate:content": "npx wrangler d1 execute plants-content-01 --remote --file migrations/content/0001_wikipedia_sources.sql && npx wrangler d1 execute plants-content-01 --remote --file migrations/content/0002_wiki_import_state.sql && npx wrangler d1 execute plants-content-01 --remote --file migrations/content/0003_wikipedia_article_extracts.sql"
   }
 }
