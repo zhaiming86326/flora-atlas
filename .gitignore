@@ -18,3 +18,4 @@ public/assets
 wrangler-account.json
 .wrangler-d1-list.json
 wrangler.enrichment.generated.jsonc
+_non_deploy/
