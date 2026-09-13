@@ -83,8 +83,9 @@ export function createWikiImportHandler({ previewHandler = handleWikiPreview, fe
       return json({ error: '缺少确认头 X-Flora-Confirm: import-one。', code: 'CONFIRMATION_REQUIRED',
         writesPerformed: false }, 403);
     }
-    if (!env.DB || !env.CONTENT_DB) {
-      return json({ error: '需要 DB 和 CONTENT_DB 两个 D1 绑定。', code: 'DB_NOT_CONFIGURED',
+    const skipMainStatusUpdate = String(env.WIKI_IMPORT_SKIP_MAIN_STATUS_UPDATE || '').toLowerCase() === 'true';
+    if ((!env.DB && !skipMainStatusUpdate) || !env.CONTENT_DB) {
+      return json({ error: '需要 CONTENT_DB；除非显式跳过主库状态更新，否则还需要 DB。', code: 'DB_NOT_CONFIGURED',
         writesPerformed: false }, 503);
     }
     const taxonId = requestUrl.searchParams.get('taxon_id');
@@ -190,8 +191,10 @@ export function createWikiImportHandler({ previewHandler = handleWikiPreview, fe
       ];
       const batch = await env.CONTENT_DB.batch(statements);
       contentWritten = true;
-      await env.DB.prepare("UPDATE plant_enrichment_targets SET status = 'review' WHERE taxon_id = ?")
-        .bind(taxonId).run();
+      if (!skipMainStatusUpdate) {
+        await env.DB.prepare("UPDATE plant_enrichment_targets SET status = 'review' WHERE taxon_id = ?")
+          .bind(taxonId).run();
+      }
       return json({
         mode: 'import-one', writesPerformed: true, publicationStatus: 'review',
         target: { taxon_id: taxonId, scientific_name: preview.target.scientific_name },

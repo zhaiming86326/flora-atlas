@@ -1,7 +1,6 @@
 import { readFileSync, writeFileSync } from 'node:fs';
 
 const [, , d1ListPath = '.wrangler-d1-list.json', outputPath = 'wrangler.enrichment.generated.jsonc'] = process.argv;
-const MAIN_DB_NAME = 'flora-atlas';
 const CONTENT_DB_NAME = 'plants-content-01';
 
 function readDatabases(path) {
@@ -22,7 +21,6 @@ function databaseId(databases, name, envName) {
 }
 
 const databases = readDatabases(d1ListPath);
-const mainDbId = databaseId(databases, MAIN_DB_NAME, 'MAIN_D1_DATABASE_ID');
 const contentDbId = databaseId(databases, CONTENT_DB_NAME, 'CONTENT_D1_DATABASE_ID');
 
 const config = {
@@ -33,16 +31,9 @@ const config = {
   vars: {
     WIKIMEDIA_CONTACT: 'https://flora-atlas-green.simcardqrm4.chatgpt.site',
     WIKI_BATCH_SIZE: '1',
-    WIKI_AUTO_SEED_TARGETS: 'true',
-    WIKI_SEED_BATCH_SIZE: '20',
+    WIKI_TARGETS_CSV_URL: 'https://raw.githubusercontent.com/zhaiming86326/flora-atlas/main/db/import/wiki-enrichment-targets.csv',
   },
   d1_databases: [
-    {
-      binding: 'DB',
-      database_name: MAIN_DB_NAME,
-      database_id: mainDbId,
-      migrations_dir: 'migrations/main',
-    },
     {
       binding: 'CONTENT_DB',
       database_name: CONTENT_DB_NAME,

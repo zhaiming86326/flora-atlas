@@ -43,6 +43,8 @@ function harness() {
     CREATE TABLE source_documents(document_id TEXT PRIMARY KEY);
     CREATE TABLE source_document_versions(document_id TEXT, revision_id INTEGER);
     CREATE TABLE taxon_document_links(taxon_id TEXT, document_id TEXT);
+    CREATE TABLE wiki_import_state(id INTEGER PRIMARY KEY, next_index INTEGER NOT NULL, updated_at TEXT NOT NULL);
+    INSERT INTO wiki_import_state VALUES (1, 0, '2026-09-13T00:00:00Z');
   `);
   const env = {
     DB: d1(main),
@@ -51,6 +53,7 @@ function harness() {
     WIKI_AUTO_SEED_TARGETS: 'true',
     WIKI_BATCH_SIZE: '1',
     WIKI_SEED_BATCH_SIZE: '2',
+    WIKI_TARGETS_CSV_URL: '',
   };
   return { main, content, env, close() { main.close(); content.close(); } };
 }
@@ -72,6 +75,41 @@ test('batch seeds a pending target and imports it', async () => {
     assert.equal(result.imported, 1);
     assert.equal(h.main.prepare("SELECT status FROM plant_enrichment_targets WHERE taxon_id='wcvp:1'").get().status, 'review');
     assert.equal(h.main.prepare("SELECT status FROM plant_enrichment_targets WHERE taxon_id='wcvp:2'").get().status, 'pending');
+  } finally {
+    h.close();
+  }
+});
+
+test('csv manifest imports without reading the main D1 database', async () => {
+  const h = harness();
+  try {
+    let sawFakeDb = false;
+    const importHandler = async (request, env) => {
+      assert.equal(new URL(request.url).searchParams.get('taxon_id'), 'wcvp:1');
+      const row = await env.DB.prepare('SELECT target FROM plant_enrichment_targets e JOIN taxonomic_backbone b').first();
+      sawFakeDb = row.lookup_name === 'Ginkgo biloba';
+      return Response.json({
+        writesPerformed: true,
+        source: { documentId: 'wikipedia:zh:1', revisionId: 123 },
+      });
+    };
+    const result = await runWikiImportBatch({ ...h.env, DB: undefined }, {
+      importHandler,
+      targets: [{
+        taxon_id: 'wcvp:1',
+        lookup_name: 'Ginkgo biloba',
+        scientific_name: 'Ginkgo biloba',
+        taxon_rank: 'species',
+        family: 'Ginkgoaceae',
+        genus: 'Ginkgo',
+        chinese_name: '银杏',
+      }],
+    });
+    assert.equal(result.mode, 'wiki-import-csv-batch');
+    assert.equal(result.imported, 1);
+    assert.equal(result.nextIndex, 1);
+    assert.equal(sawFakeDb, true);
+    assert.equal(h.content.prepare('SELECT next_index FROM wiki_import_state WHERE id=1').get().next_index, 1);
   } finally {
     h.close();
   }
