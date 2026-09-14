@@ -78,6 +78,8 @@ test('plant list clamps pagination and uses bound values', async () => {
   assert.equal(payload.items[0].imageUrl, 'https://pub-3517da5ed83f46628c557cd926a014a5.r2.dev/imgs/ginkgo-biloba.webp');
   assert(db.calls.some(call => call.sql.includes('synonym_to_accepted sn')));
   assert(db.calls.some(call => call.sql.includes('accepted_species_zh t')));
+  assert(!db.calls.some(call => call.sql.includes('FROM external_ids') && call.sql.includes('LIMIT ? OFFSET ?')));
+  assert(!db.calls.some(call => call.sql.includes('FROM trait_assertions') && call.sql.includes('LIMIT ? OFFSET ?')));
   assert(db.calls.some(call => call.values.includes('%ginkgo%')));
   assert(db.calls.some(call => call.values.at(-2) === 60 && call.values.at(-1) === 0));
 });

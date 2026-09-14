@@ -272,14 +272,7 @@ async function listPlants(db, params, env) {
       t.geographic_area,
       t.chinese_name,
       t.chinese_family,
-      t.chinese_genus,
-      (SELECT group_concat(DISTINCT external_id) FROM external_ids WHERE taxon_id = t.taxon_id AND source_db = 'WFO') AS wfo_id,
-      (SELECT group_concat(DISTINCT external_id) FROM external_ids WHERE taxon_id = t.taxon_id AND source_db = 'GBIF') AS gbif_id,
-      (SELECT group_concat(DISTINCT external_id) FROM external_ids WHERE taxon_id = t.taxon_id AND source_db = 'NCBI') AS ncbi_taxid,
-      (SELECT group_concat(DISTINCT external_id) FROM external_ids WHERE taxon_id = t.taxon_id AND source_db = 'IPNI') AS ipni_id,
-      (SELECT group_concat(DISTINCT external_id) FROM external_ids WHERE taxon_id = t.taxon_id AND source_db = 'POWO') AS powo_id,
-      (SELECT group_concat(DISTINCT trait_value) FROM trait_assertions WHERE taxon_id = t.taxon_id AND trait_name = 'lifeform') AS lifeform,
-      (SELECT group_concat(DISTINCT trait_value) FROM trait_assertions WHERE taxon_id = t.taxon_id AND trait_name = 'climate') AS climate
+      t.chinese_genus
     ${from}
     WHERE ${where.sql}
     ORDER BY ${orderBy(params.sort)}
